@@ -55,13 +55,43 @@ function update_dataset ($link, $id, $input_array)
     mysqli_query ($link, $q);
 }
 
-
 function load_single_dataset ($link, $id)
 {
     $q = "select * from customer where id ='$id' and enabled ='1'";
     $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
     $arr = mysqli_fetch_array($result);
     return $arr;
+}
+
+function seek_customer ($link, $needle)
+{
+    $q = "select * from customer where"
+            . " name like '%$needle%'"
+            . " or remarks like '%$needle%'"
+            . " or vname like '%$needle%'"
+            . " or telnr like '%$needle%'"
+            . " or street like '%$needle%'"
+            . " or hausnr like '%$needle%'"
+            . " or plz like '%$needle%'"
+            . " or ort like '%$needle%'"
+            . " or anrede like '%$needle%'";
+    $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
+    return $result;
+}
+
+function result_table ($result)
+{
+    echo "<table border = '1'>";
+    while($row = $result->fetch_assoc())
+    {
+        extract($row);
+        echo "<tr>";
+        echo "<td>$id</td><td>$anrede</td><td>$vname</td><td>$name</td>"
+                . "<td>$telnr</td><td>$email</td><td>$plz</td><td>$ort</td>"
+                . "<td>$street</td><td>$hausnr</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
 }
 
 function disable_dataset ($link, $id)

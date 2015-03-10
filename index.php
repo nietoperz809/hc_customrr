@@ -23,6 +23,14 @@ include 'misc.php';
         $self = htmlspecialchars($_SERVER["PHP_SELF"]);
         echo "<form action='$self' method='post'>";
         buttonbar();
+        if (isset($_REQUEST['seek']))
+        {
+            $seektxt = $_REQUEST['bbt_seek'];
+            $link = connect();
+            $result = seek_customer($link, $seektxt);
+            result_table ($result);
+            die();
+        }
         $id = "?";
         $tbsource = &$_REQUEST;
         if (isset($_REQUEST['bbsub']))
@@ -32,19 +40,27 @@ include 'misc.php';
             if ($bbsub == "new")
             {
                 $id = new_dataset($link, $_REQUEST);
-            } else if ($bbsub == "update")
+            } 
+            else if ($bbsub == "update")
             {
-                $id = $_REQUEST['id2'];
-                update_dataset($link, $id, $_REQUEST);
-            } else if ($bbsub == "clear")
+                if (isset($_REQUEST['id2']))
+                {
+                    $id = $_REQUEST['id2'];
+                    update_dataset($link, $id, $_REQUEST);
+                    echo "Changed record: ".$id;
+                }
+            } 
+            else if ($bbsub == "clear")
             {
                 $tbsource = null;
-            } else if ($bbsub == "delete")
+            } 
+            else if ($bbsub == "delete")
             {
                 $id = $_REQUEST['id2'];
                 disable_dataset($link, $id);
                 $tbsource = null;
-            } else if ($bbsub == "show")
+            } 
+            else if ($bbsub == "show")
             {
                 if (isset($_REQUEST['bbt_show']))
                 {
