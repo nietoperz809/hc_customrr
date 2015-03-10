@@ -1,6 +1,6 @@
 <?php
 
-function table($input_array, $id="")
+function table($input_array, $id="?")
 {
     $anrede = "";
     $name = "";
@@ -12,7 +12,8 @@ function table($input_array, $id="")
     $ort = "";
     $plz = "";
     $remarks = "";
-    extract($input_array);
+    if ($input_array != NULL)
+        extract($input_array);
     echo "<table border='1'>"
     . "<tbody><tr>"
     . "<td>Anrede</td><td><input type='text' name='anrede' value='$anrede'></td>"
