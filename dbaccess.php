@@ -8,22 +8,17 @@ function err ($txt)
 
 function connect() 
 {
-    $link = mysql_connect('localhost:3306', 'root', '');
-    if (!$link) 
+    $link = mysqli_connect('localhost', 'root', '', 'hc_customer_db');
+    if (mysqli_connect_errno()) 
     {
         err("Can't connect to mySQL: ");
-    }
-    $sel = mysql_select_db('hc_customer_db');
-    if ($sel == FALSE)
-    {
-        err ("Can't open DB");
     }
     return $link;
 }
 
-function query ($in)
+function query ($link, $in)
 {
-    $res = mysql_query($in);
+    $res = mysqli_query($link, $in);
     if ($res == FALSE)
     {
         err ("SQL query failed");
@@ -31,7 +26,7 @@ function query ($in)
     return $res;
 }
 
-function new_dataset ($input_array)
+function new_dataset ($link, $input_array)
 {
     $anrede = "";
     $name = "";
@@ -46,6 +41,6 @@ function new_dataset ($input_array)
     extract($input_array);
     $q = "insert into customer (name, vname, telnr, email, street, ort, hausnr, plz, remarks, anrede) "
          ."values ('$name', '$vname', '$telnr', '$email', '$street', '$ort', '$hausnr', '$plz', '$remarks', '$anrede')";   
-    connect();
-    query ($q);
+    query ($link, $q);
+    return mysqli_insert_id($link);
 }

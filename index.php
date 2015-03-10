@@ -17,14 +17,21 @@ include 'misc.php';
     </head>
     <body>
         <?php
-        buttonbar();
         $self = htmlspecialchars($_SERVER["PHP_SELF"]);
         echo "<form action='$self' method='post'>";
-        table($_REQUEST);
-        if (isset($_REQUEST['submit']))
-            new_dataset ($_REQUEST);
+        buttonbar();
+        $id = "?";
+        if (isset($_REQUEST['bbsub']))
+        {
+            $bbsub = $_REQUEST['bbsub'];
+            if ($bbsub == "new")
+            {
+                $link = connect();
+                $id = new_dataset ($link, $_REQUEST);
+            }
+        }
+        table($_REQUEST, $id);
+        echo "</form>";
         ?>
-            <input type="submit" name="submit" value="Submit">
-        </form>    
     </body>
 </html>

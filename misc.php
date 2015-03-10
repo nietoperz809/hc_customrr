@@ -2,10 +2,11 @@
 
 function buttonbar()
 {
-    $self = htmlspecialchars($_SERVER['PHP_SELF']);
-    echo "<form action='$self' method='post'>";
-    echo "<input type='submit' name='new' value='new'>";
-    echo "<input type='submit' name='seek' value='seek-->'>";
-    echo "<input type='text' name='seektext'>";
-    echo "</form><hr>";     
+    echo "<input type='submit' name='bbsub' value='new'>";
+    echo "<input type='submit' name='bbsub' value='edit'>";
+    echo "<input type='submit' name='bbsub' value='seek-->'>";
+    echo "<input type='text' name='bbtext'>";
+    echo "<input type='submit' name='bbsub' value='show-->'>";
+    echo "<input type='text' name='bbtext' size='8'>";
+    echo "<hr>";     
 }
