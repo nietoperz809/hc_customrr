@@ -66,7 +66,7 @@ function load_single_dataset ($link, $id)
 function seek_customer ($link, $needle)
 {
     $q = "select * from customer where"
-            . " name like '%$needle%'"
+            . " (name like '%$needle%'"
             . " or remarks like '%$needle%'"
             . " or vname like '%$needle%'"
             . " or telnr like '%$needle%'"
@@ -74,7 +74,8 @@ function seek_customer ($link, $needle)
             . " or hausnr like '%$needle%'"
             . " or plz like '%$needle%'"
             . " or ort like '%$needle%'"
-            . " or anrede like '%$needle%'";
+            . " or anrede like '%$needle%')"
+            . " and enabled = '1'";
     $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
     return $result;
 }
@@ -86,9 +87,9 @@ function result_table ($result)
     {
         extract($row);
         echo "<tr>";
-        echo "<td>$id</td><td>$anrede</td><td>$vname</td><td>$name</td>"
+        echo "<td><input type='submit' name='bbutt' value='$id'></td><td>$anrede</td><td>$vname</td><td>$name</td>"
                 . "<td>$telnr</td><td>$email</td><td>$plz</td><td>$ort</td>"
-                . "<td>$street</td><td>$hausnr</td>";
+                . "<td>$street</td><td>$hausnr</td><td>$remarks</td>";
         echo "</tr>";
     }
     echo "</table>";
