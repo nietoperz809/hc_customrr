@@ -12,6 +12,9 @@ include 'misc.php';
 
 <html>
     <head>
+        <style>
+            body {text-align:center;}
+        </style>
         <meta charset="UTF-8">
         <title></title>
     </head>
@@ -28,26 +31,27 @@ include 'misc.php';
             $link = connect();
             if ($bbsub == "new")
             {
-                $id = new_dataset ($link, $_REQUEST);
-            }
-            else if ($bbsub == "clear")
+                $id = new_dataset($link, $_REQUEST);
+            } else if ($bbsub == "update")
+            {
+                $id = $_REQUEST['id2'];
+                update_dataset($link, $id, $_REQUEST);
+            } else if ($bbsub == "clear")
             {
                 $tbsource = null;
-            }
-            else if ($bbsub == "hide")
+            } else if ($bbsub == "delete")
             {
-                if (isset($_REQUEST['bbt_show']))
-                {
-                    $id = $_REQUEST['bbt_hide'];
-                    disable_dataset($link, $id);
-                }
-            }
-            else if ($bbsub == "show")
+                $id = $_REQUEST['id2'];
+                disable_dataset($link, $id);
+                $tbsource = null;
+            } else if ($bbsub == "show")
             {
                 if (isset($_REQUEST['bbt_show']))
                 {
                     $id = $_REQUEST['bbt_show'];
-                    $arr = load_single_dataset ($link, $id);
+                    $arr = load_single_dataset($link, $id);
+                    if ($arr == NULL)
+                        $id = "deleted";
                     $tbsource = &$arr;
                 }
             }

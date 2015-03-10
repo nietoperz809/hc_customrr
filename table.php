@@ -1,6 +1,6 @@
 <?php
 
-function table($input_array, $id="?")
+function table($input_array, $id)
 {
     $anrede = "";
     $name = "";
@@ -17,7 +17,7 @@ function table($input_array, $id="?")
     echo "<table border='1'>"
     . "<tbody><tr>"
     . "<td>Anrede</td><td><input type='text' name='anrede' value='$anrede'></td>"
-    . "<td>Kundennummer</td><td>$id</td>"
+    . "<td>Kundennummer</td><td><input type='text' name='id2' value='$id' readonly></td>"
     . "</tr><tr>"
     . "<td>Name</td><td><input type='text' name='name' value='$name'></td>"
     . "<td>Vorname</td><td><input type='text' name='vname' value='$vname'></td>"
@@ -31,6 +31,6 @@ function table($input_array, $id="?")
     . "<td>Ort</td><td><input type='text' name='ort' value='$ort'></td>"
     . "<td>PLZ</td><td><input type='text' name='plz' value='$plz'></td>"
     . "</tr><tr>"
-    . "<td>Bemerkung</td><td colspan='3'><input type='text' size='60' name='remarks' value='$remarks'></td>"
+    . "<td>Bemerkung</td><td colspan='3'><input type='text' size='65' name='remarks' value='$remarks'></td>"
     . "</tr></tbody></table>";
 }
