@@ -26,20 +26,23 @@ include 'misc.php';
         $id = "?";
         $tbsource = &$_REQUEST;
         $link = connect();
+        // show dataset from search table
         if (isset($_REQUEST['bbutt']))
         {
             $id = $_REQUEST['bbutt'];
             $arr = load_single_dataset($link, $id);
             $tbsource = &$arr;
         }
-        if (isset($_REQUEST['seek']))
+        // Seek button clicked
+        else if (isset($_REQUEST['seek']))
         {
             $seektxt = $_REQUEST['bbt_seek'];
             $result = seek_customer($link, $seektxt);
             result_table ($result);
             die ("</form></body></html>");
         }
-        if (isset($_REQUEST['bbsub']))
+        // Button in buttonbar clicked
+        else if (isset($_REQUEST['bbsub']))
         {
             $bbsub = $_REQUEST['bbsub'];
             if ($bbsub == "new")
