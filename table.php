@@ -42,7 +42,7 @@ function result_table ($result)
     {
         extract($row);
         echo "<tr>";
-        echo "<td><input type='submit' name='bbutt' value='$id' "
+        echo "<td><input type='submit' name='idbutton' value='$id' "
                 . "title='Zeige Datensatz für Kundennummer #$id'></td>"
                 . "<td>$anrede</td><td>$vname</td><td>$name</td>"
                 . "<td>$telnr</td><td>$email</td><td>$plz</td><td>$ort</td>"
@@ -74,12 +74,42 @@ function buttonbar()
     echo "<br/><br/><input type='submit' name='rech' value='rechnung erstellen'>";
 }
 
-function invoice_form ()
-{
-    echo "<Input type = 'Radio' Name ='zahlungsart' value= 'bar' checked>Bar";
-    echo "<Input type = 'Radio' Name ='zahlungsart' value= 'überweisung'>Überweisung";
-    echo "<p><Input type = 'Radio' Name ='typ' value= 'neu' checked>Neu/Dienstleistung";
-    echo "<Input type = 'Radio' Name ='typ' value= 'alt'>Gebraucht";
-    echo "<p><input type='submit' name='rech_ok' value='fertig'>";
+function invoice_radiobuttons ($arr)
+{   
+    define("CHECK", "checked = 'checked'");
+    define("CLEAR", "");
+    $c1 = CHECK;
+    $c2 = CLEAR;
+    $c3 = CHECK;
+    $c4 = CLEAR;
+    if (isset($arr['zahlungsart']) && $arr['zahlungsart'] != 'bar')
+    {
+        $c1 = CLEAR;
+        $c2 = CHECK;
+    }
+    if (isset($arr['typ']) && $arr['typ'] != 'neu')
+    {
+        $c3 = CLEAR;
+        $c4 = CHECK;
+    }
+    echo "<Input type = 'Radio' Name ='zahlungsart' value= 'bar' $c1>Bar";
+    echo "<Input type = 'Radio' Name ='zahlungsart' value= 'überweisung' $c2>Überweisung";
+    echo "<Input type = 'Radio' Name ='typ' value= 'neu' $c3>Neu/Dienstleistung";
+    echo "<Input type = 'Radio' Name ='typ' value= 'alt' $c4>Gebraucht";
 }
 
+function invoice_table ($count)
+{
+    echo "<p><table align='center'>";
+    echo "<tr><th>Stück</th><th>Bezeichnung</th><th>Einzelpreis</th><th>Gesamtpreis</th></tr>";
+    for ($n=0; $n<$count; $n++)
+    {
+        echo "<tr>"
+        . "<td><input type='text' size='6' name='stueck[]'></td>"
+        . "<td><input type='text' size='60' name='bezeichnung[]'></td>"
+        . "<td><input type='text' name='einzel[]'></td>"
+        . "<td><input type='text' name='gesamt[]' readonly></td>"
+        . "</tr>";
+    }
+    echo "</table></p>";
+}

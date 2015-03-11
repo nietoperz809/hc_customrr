@@ -27,13 +27,14 @@ include 'table.php';
         // Write invoice
         if (isset($_REQUEST['rech']))
         {
-            header ("Location: invoice.php");
+            $id = $_REQUEST['id2'];
+            header ("Location: invoice.php?id=$id");
             exit;
         }
         // show dataset from search table
-        else if (isset($_REQUEST['bbutt']))
+        else if (isset($_REQUEST['idbutton']))
         {
-            $id = $_REQUEST['bbutt'];
+            $id = $_REQUEST['idbutton'];
             $arr = load_single_dataset($link, $id);
             $tbsource = &$arr;
         }
@@ -41,18 +42,28 @@ include 'table.php';
         else if (isset($_REQUEST['suchen']))
         {
             $seektxt = $_REQUEST['bbt_seek'];
-            $result = seek_customer($link, $seektxt);
-            result_table ($result);
+            if (strlen($seektxt) < 3)
+            {
+                echo "<h1>Suchtext muss mindestens 3 Buchstaben haben<h1>";
+                echo "<input type='submit' name='zurück' value='zurück'>";
+            }
+            else 
+            {
+                $result = seek_customer($link, $seektxt);
+                result_table ($result);
+            }
             die ("</form></body></html>");
         }
         // Button in buttonbar clicked
         else if (isset($_REQUEST['bbsub']))
         {
             $bbsub = $_REQUEST['bbsub'];
+            // new button clicked
             if ($bbsub == "neu")
             {
                 $id = new_dataset($link, $_REQUEST);
             } 
+            // update button clicked
             else if ($bbsub == "ändern")
             {
                 if (isset($_REQUEST['id2']))
@@ -61,17 +72,20 @@ include 'table.php';
                     update_dataset($link, $id, $_REQUEST);
                     echo "Record $id changed";
                 }
-            } 
+            }
+            // reset-form button clicked
             else if ($bbsub == "reset")
             {
                 $tbsource = null;
-            } 
+            }
+            // delete button clicked
             else if ($bbsub == "löschen")
             {
                 $id = $_REQUEST['id2'];
                 disable_dataset($link, $id);
                 $tbsource = null;
-            } 
+            }
+            // show-customer button clicked
             else if ($bbsub == "kunde")
             {
                 if (isset($_REQUEST['bbt_show']))
