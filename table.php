@@ -14,7 +14,7 @@ function table($input_array, $id)
     $remarks = "";
     if ($input_array != NULL)
         extract($input_array);
-    echo "<table border='1'>"
+    echo "<div align='center'><table border='1'>"
     . "<tbody><tr>"
     . "<td>Anrede</td><td><input type='text' name='anrede' value='$anrede'></td>"
     . "<td>Kundennummer</td><td><input type='text' name='id2' value='$id' readonly></td>"
@@ -32,7 +32,7 @@ function table($input_array, $id)
     . "<td>PLZ</td><td><input type='text' name='plz' value='$plz'></td>"
     . "</tr><tr>"
     . "<td>Bemerkung</td><td colspan='3'><input type='text' size='65' name='remarks' value='$remarks'></td>"
-    . "</tr></tbody></table>";
+    . "</tr></tbody></table></div>";
 }
 
 function result_table ($result)
@@ -42,7 +42,9 @@ function result_table ($result)
     {
         extract($row);
         echo "<tr>";
-        echo "<td><input type='submit' name='bbutt' value='$id'></td><td>$anrede</td><td>$vname</td><td>$name</td>"
+        echo "<td><input type='submit' name='bbutt' value='$id' "
+                . "title='Zeige Datensatz für Kundennummer #$id'></td>"
+                . "<td>$anrede</td><td>$vname</td><td>$name</td>"
                 . "<td>$telnr</td><td>$email</td><td>$plz</td><td>$ort</td>"
                 . "<td>$street</td><td>$hausnr</td><td>$remarks</td>";
         echo "</tr>";
