@@ -22,7 +22,6 @@ include 'misc.php';
         <?php
         $self = htmlspecialchars($_SERVER["PHP_SELF"]);
         echo "<form action='$self' method='post'>";
-        buttonbar();
         $id = "?";
         $tbsource = &$_REQUEST;
         $link = connect();
@@ -80,7 +79,10 @@ include 'misc.php';
                 }
             }
         }
-        table($tbsource, $id);
+        echo "<hr>";     
+        main_table($tbsource, $id);
+        echo "<hr>";     
+        buttonbar();
         echo "</form>";
         ?>
     </body>
