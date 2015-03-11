@@ -7,7 +7,6 @@ and open the template in the editor.
 <?php
 include 'dbaccess.php';
 include 'table.php';
-include 'misc.php';
 ?>
 
 <html>
@@ -25,15 +24,21 @@ include 'misc.php';
         $id = "?";
         $tbsource = &$_REQUEST;
         $link = connect();
+        // Write invoice
+        if (isset($_REQUEST['rech']))
+        {
+            header ("Location: invoice.php");
+            exit;
+        }
         // show dataset from search table
-        if (isset($_REQUEST['bbutt']))
+        else if (isset($_REQUEST['bbutt']))
         {
             $id = $_REQUEST['bbutt'];
             $arr = load_single_dataset($link, $id);
             $tbsource = &$arr;
         }
         // Seek button clicked
-        else if (isset($_REQUEST['seek']))
+        else if (isset($_REQUEST['suchen']))
         {
             $seektxt = $_REQUEST['bbt_seek'];
             $result = seek_customer($link, $seektxt);
@@ -44,11 +49,11 @@ include 'misc.php';
         else if (isset($_REQUEST['bbsub']))
         {
             $bbsub = $_REQUEST['bbsub'];
-            if ($bbsub == "new")
+            if ($bbsub == "neu")
             {
                 $id = new_dataset($link, $_REQUEST);
             } 
-            else if ($bbsub == "update")
+            else if ($bbsub == "ändern")
             {
                 if (isset($_REQUEST['id2']))
                 {
@@ -57,17 +62,17 @@ include 'misc.php';
                     echo "Record $id changed";
                 }
             } 
-            else if ($bbsub == "clear")
+            else if ($bbsub == "reset")
             {
                 $tbsource = null;
             } 
-            else if ($bbsub == "delete")
+            else if ($bbsub == "löschen")
             {
                 $id = $_REQUEST['id2'];
                 disable_dataset($link, $id);
                 $tbsource = null;
             } 
-            else if ($bbsub == "show")
+            else if ($bbsub == "kunde")
             {
                 if (isset($_REQUEST['bbt_show']))
                 {
