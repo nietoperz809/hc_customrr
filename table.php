@@ -34,3 +34,20 @@ function table($input_array, $id)
     . "<td>Bemerkung</td><td colspan='3'><input type='text' size='65' name='remarks' value='$remarks'></td>"
     . "</tr></tbody></table>";
 }
+
+function result_table ($result)
+{
+    echo "<table border = '1'>";
+    while($row = $result->fetch_assoc())
+    {
+        extract($row);
+        echo "<tr>";
+        echo "<td><input type='submit' name='bbutt' value='$id'></td><td>$anrede</td><td>$vname</td><td>$name</td>"
+                . "<td>$telnr</td><td>$email</td><td>$plz</td><td>$ort</td>"
+                . "<td>$street</td><td>$hausnr</td><td>$remarks</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+}
+
+
