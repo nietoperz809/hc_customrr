@@ -98,18 +98,41 @@ function invoice_radiobuttons ($arr)
     echo "<Input type = 'Radio' Name ='typ' value= 'alt' $c4>Gebraucht";
 }
 
-function invoice_table ($count)
+function invoice_row ($a, $b, $c, $d)
+{
+    echo "<tr>"
+    . "<td><input type='text' size='6' name='stueck[]' value='$a'></td>"
+    . "<td><input type='text' size='60' name='bez[]' value='$b'></td>"
+    . "<td><input type='text' name='einzel[]' value='$c'></td>"
+    . "<td><input type='text' name='gesamt[]' value='$d' readonly></td>"
+    . "</tr>";
+}
+
+function invoice_table ($stueck, $bez, $einzel, $gesamt, $newline=1)
 {
     echo "<p><table align='center'>";
     echo "<tr><th>Stück</th><th>Bezeichnung</th><th>Einzelpreis</th><th>Gesamtpreis</th></tr>";
+    $count = count ($stueck);
+    if ($count > 0 && $newline == -1)
+    {
+        $count--;
+    }
+    $sum = 0;
     for ($n=0; $n<$count; $n++)
     {
-        echo "<tr>"
-        . "<td><input type='text' size='6' name='stueck[]'></td>"
-        . "<td><input type='text' size='60' name='bezeichnung[]'></td>"
-        . "<td><input type='text' name='einzel[]'></td>"
-        . "<td><input type='text' name='gesamt[]' readonly></td>"
-        . "</tr>";
+        $fixed = str_replace(",", ".", $einzel[$n]); // replace comma with colon
+        $sum = $stueck[$n] * $fixed;
+        invoice_row($stueck[$n], $bez[$n], $einzel[$n], $sum);
+    }
+    if ($newline == 1)
+    {
+        invoice_row('', '', '', ''); // Insert empty row
+    }
+    // Add all sums
+    for ($n=0; $n<($count-1); $n++)
+    {
+        $sum += $gesamt[$n];
     }
     echo "</table></p>";
+    echo "<h3>Endpreis: $sum</h3>";
 }

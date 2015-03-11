@@ -15,6 +15,10 @@ include 'table.php';
         <?php
         $self = htmlspecialchars($_SERVER["PHP_SELF"]);
         $link = connect();
+        $stueck = array();
+        $bez = array();
+        $einzel = array();
+        $gesamt = array();
         extract($_REQUEST);
         $dataset = load_single_dataset ($link, $id);
         if ($dataset == NULL)
@@ -25,13 +29,21 @@ include 'table.php';
         echo "<form action='$self' method='post'>";
         echo "<input type='hidden' name ='id' value='$id'>"; // keep id alive
         invoice_radiobuttons($_REQUEST);
-        $rows = 1;
-        if (isset($stueck))
+        $newline = 1;
+        if (isset($rech))
         {
-           $rows = count($stueck) + 1;
+            $newline = 0;
         }
-        invoice_table($rows);
-        echo "<p><input type='submit' name='rech_ok' value='fertig'>";
+        else if (isset($kill))
+        {
+            $newline = -1;
+        }
+        invoice_table($stueck, $bez, $einzel, $gesamt, $newline);
+        echo "<hr>"
+        . "<input type='submit' name='rech_ok' value='fertig'>"
+        . "<input type='submit' name='rech' value='rechnen'>"
+        . "<input type='submit' name='next' value='nächste position'>"
+        . "<input type='submit' name='kill' value='letzte position löschen'>";
         echo "</form>";
         page_end:
         ?>
