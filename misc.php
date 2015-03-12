@@ -15,7 +15,7 @@ function hcheader (FPDF $pdf, $xstart, $ystart)
 {
     $y = $ystart; $x = $xstart;
     $pdf->Line ($x, $y, $x+80, $y);
-    $y += 6;
+    $y += 1;
     $pdf->SetXY ($x,$y);
     $pdf->Write(5, conv ('• Hardware'));
     $y += 6;
@@ -28,6 +28,7 @@ function hcheader (FPDF $pdf, $xstart, $ystart)
     $pdf->SetXY ($x,$y);
     $pdf->Write(5, conv ('• Beratung'));
     $y = $ystart; $x = $xstart+30;
+    $y += 1;
     $pdf->SetXY ($x,$y);
     $pdf->Write(5, conv ('• Eigene Werkstatt'));
     $y += 6;
@@ -39,18 +40,25 @@ function hcheader (FPDF $pdf, $xstart, $ystart)
     $y += 6;
     $pdf->SetXY ($x,$y);
     $pdf->Write(5, conv ('• An- und Verkauf'));
-    $y += 12; $x = $xstart;
+    $y += 6; $x = $xstart;
     $pdf->Line ($x, $y, $x+80, $y);
 }
 
-include ('fpdf.php'); 
+function address_field (FPDF $pdf, $x, $y)
+{
+    $pdf->SetXY ($x,$y);
+    $pdf->Write ()
+}
+
+include ('pdf/fpdf.php'); 
 function testpdf() 
 {
-    $pdf = new FPDF();
+    $pdf = new FPDF('P');
     $pdf->AddPage();
     $pdf->SetFont('times','',12);
     $pdf->SetFontSize(12);
-    hcheader ($pdf, 2, 2);
+    hcheader ($pdf, 12, 16);
+    $pdf->Image ('pix/hanse.png', 115, 30);
     $pdf->Output('c:\\test.pdf','F');
 }
 
