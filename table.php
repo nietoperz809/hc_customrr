@@ -1,5 +1,7 @@
 <?php
 
+include "misc.php";
+
 function main_table($input_array, $id)
 {
     $anrede = "";
@@ -131,8 +133,15 @@ function invoice_table ($stueck, $bez, $einzel, $gesamt, $newline=1)
     for ($n=0; $n<$count; $n++)
     {
         $fixed = str_replace(",", ".", $einzel[$n]); // replace comma with colon
-        $sum = $stueck[$n] * $fixed;
-        $gesamt[$n] = $sum;
+        if ($stueck[$n] =='')
+        {
+            $sum = '';
+        }
+        else
+        {
+            $sum = math_eval($stueck[$n]) * $fixed;
+            $gesamt[$n] = $sum;
+        }
         invoice_row($stueck[$n], $bez[$n], $einzel[$n], $sum);
     }
     if ($newline == 1)
