@@ -30,20 +30,32 @@ include 'table.php';
         echo "<input type='hidden' name ='id' value='$id'>"; // keep id alive
         invoice_radiobuttons($_REQUEST);
         $newline = 1;
-        if (isset($rech))
+        if (isset($rech)) // don't make empty row
         {
             $newline = 0;
         }
-        else if (isset($kill))
+        else if (isset($kill)) // kill last row
         {
             $newline = -1;
         }
-        invoice_table($stueck, $bez, $einzel, $gesamt, $newline);
-        echo "<hr>"
-        . "<input type='submit' name='rech_ok' value='fertig'>"
-        . "<input type='submit' name='rech' value='rechnen'>"
-        . "<input type='submit' name='next' value='nächste position'>"
-        . "<input type='submit' name='kill' value='letzte position löschen'>";
+        else if (isset ($rech_ok))  // ready, store into DB
+        {
+            
+            $pay = $zahlungsart == 'bar' ? 0 : 1;
+            $typ2 = $typ == 'alt' ? 0 : 1;
+            $invoice_id = new_invoice ($link, $id, $typ2, $pay);
+            write_invoice_lines ($link, $invoice_id, $stueck, $einzel, $bez);
+            header ("Location: index.php");
+            exit;
+        }
+        else if (isset ($break))
+        {
+            header ("Location: index.php");
+            exit;
+        }
+        invoice_table ($stueck, $bez, $einzel, $gesamt, $newline);
+        echo "<hr>";
+        invoice_buttons();
         echo "</form>";
         page_end:
         ?>

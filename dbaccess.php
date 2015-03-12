@@ -85,3 +85,38 @@ function disable_dataset ($link, $id)
     $q = "update customer set enabled = '0' where id ='$id'";
     mysqli_query($link, $q);
 }
+
+/**
+ * 
+ * @param type $link database link
+ * @param type $cust_id customer id (foreign key)
+ * @param type $typ 0 == alt, 1 == neu
+ * @param type $payment 0 == bar, 1 == überweisung 
+ * @return type
+ */
+function new_invoice ($link, $cust_id, $typ, $payment)
+{
+    $q = "insert into invoice (cust_id, typ, payment) values ('$cust_id', '$typ', '$payment')";
+    mysqli_query ($link, $q);
+    $id = mysqli_insert_id($link);
+    return $id;
+}
+
+/**
+ * 
+ * @param type $link database link
+ * @param type $inv_id invoice id (foreign key)
+ * @param type $numitems number of items (array)
+ * @param type $price price of one item (array)
+ * @param type $text description (array)
+ */
+function write_invoice_lines ($link, $inv_id, $numitems, $price, $text)
+{
+    $count = count ($numitems);
+    for ($n=0; $n<$count; $n++)
+    {
+        $q = "insert into invoice_line (invoice_id, items, price, text) "
+             . "values ('$inv_id', '$numitems[$n]', '$price[$n]', '$text[$n]')";
+        mysqli_query ($link, $q);
+    }
+}

@@ -108,6 +108,16 @@ function invoice_row ($a, $b, $c, $d)
     . "</tr>";
 }
 
+/**
+ * 
+ * @param type $stueck array of items per entry
+ * @param type $bez text describing the item
+ * @param type $einzel price of single item
+ * @param type $gesamt sum of prices for all items
+ * @param type $newline 1 == generate new row
+ *                      0 == no action
+ *                     -1 == delete last row
+ */
 function invoice_table ($stueck, $bez, $einzel, $gesamt, $newline=1)
 {
     echo "<p><table align='center'>";
@@ -122,6 +132,7 @@ function invoice_table ($stueck, $bez, $einzel, $gesamt, $newline=1)
     {
         $fixed = str_replace(",", ".", $einzel[$n]); // replace comma with colon
         $sum = $stueck[$n] * $fixed;
+        $gesamt[$n] = $sum;
         invoice_row($stueck[$n], $bez[$n], $einzel[$n], $sum);
     }
     if ($newline == 1)
@@ -129,10 +140,20 @@ function invoice_table ($stueck, $bez, $einzel, $gesamt, $newline=1)
         invoice_row('', '', '', ''); // Insert empty row
     }
     // Add all sums
-    for ($n=0; $n<($count-1); $n++)
+    $sum = 0;
+    for ($n=0; $n<$count; $n++)
     {
         $sum += $gesamt[$n];
     }
     echo "</table></p>";
     echo "<h3>Endpreis: $sum</h3>";
+}
+
+function invoice_buttons()
+{
+    echo "<input type='submit' name='rech_ok' value='fertig'>"
+    . "<input type='submit' name='rech' value='rechnen'>"
+    . "<input type='submit' name='next' value='nächste position'>"
+    . "<input type='submit' name='kill' value='letzte position löschen'>"
+    . "<input type='submit' name='break' value='abbruch'>";
 }
