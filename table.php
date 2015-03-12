@@ -1,7 +1,5 @@
 <?php
 
-include "misc.php";
-
 function main_table($input_array, $id)
 {
     $anrede = "";

@@ -1,11 +1,20 @@
 <?php
 
-function math_eval ($s)
+function math_eval($s) 
 {
-    $ma = eval('return '.$s.';');
+    $ma = eval('return ' . $s . ';');
     return $ma;
 }
 
+include ('fpdf.php'); 
+function testpdf() 
+{
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(40, 10, 'Hello World!');
+    $pdf->Output();
+}
 
 /*
  * Rechnungsnummer jahr/

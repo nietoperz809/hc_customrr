@@ -7,6 +7,7 @@ and open the template in the editor.
 <?php
 include 'dbaccess.php';
 include 'table.php';
+include 'misc.php'
 ?>
 
 <html>
@@ -19,6 +20,7 @@ include 'table.php';
     </head>
     <body>
         <?php
+        testpdf();
         $self = htmlspecialchars($_SERVER["PHP_SELF"]);
         echo "<form action='$self' method='post'>";
         $id = "?";
