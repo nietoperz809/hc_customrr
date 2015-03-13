@@ -13,6 +13,7 @@ function conv ($in)
 
 function hcheader (FPDF $pdf, $xstart, $ystart)
 {
+    $pdf->SetFontSize(12);
     $y = $ystart; $x = $xstart;
     $pdf->Line ($x, $y, $x+80, $y);
     $y += 1;
@@ -46,8 +47,25 @@ function hcheader (FPDF $pdf, $xstart, $ystart)
 
 function address_field (FPDF $pdf, $x, $y)
 {
+    $pdf->SetFontSize(10);
     $pdf->SetXY ($x,$y);
-    $pdf->Write ()
+    $pdf->Write (5, conv ("Hanseatic Computer · Scheidestr. 17 · 30625 Hannover"));
+    $pdf->SetLineWidth(0.1);
+    $pdf->SetDrawColor(200, 200, 200);
+    $pdf->Rect($x-5, $y+5, 100, 50); 
+    $pdf->SetFontSize(12);
+    $pdf->SetXY ($x, $y+60);
+    $pdf->Write (5, conv ("Ihr Zeichen                       "
+                         . "Ihre Nachricht vom                       "
+                         . "Unser Zeichen                       "
+                         . "Durchwahl"));
+}
+
+function set_date ($pdf, $x, $y)
+{
+    $pdf->SetFont('times','U',12);
+    $pdf->SetXY ($x, $y);
+    $pdf->Write (5, conv ("Datum: ".date("j.n.Y")));
 }
 
 include ('pdf/fpdf.php'); 
@@ -56,9 +74,10 @@ function testpdf()
     $pdf = new FPDF('P');
     $pdf->AddPage();
     $pdf->SetFont('times','',12);
-    $pdf->SetFontSize(12);
     hcheader ($pdf, 12, 16);
-    $pdf->Image ('pix/hanse.png', 115, 30);
+    address_field ($pdf, 15, 45);
+    $pdf->Image ('pix/hanse.png', 115, 25);
+    set_date ($pdf, 150, 96);
     $pdf->Output('c:\\test.pdf','F');
 }
 

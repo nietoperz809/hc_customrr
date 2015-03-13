@@ -1,4 +1,5 @@
 <?php
+include 'misc.php';
 include 'dbaccess.php';
 include 'table.php';
 ?>
@@ -19,6 +20,7 @@ include 'table.php';
         $bez = array();
         $einzel = array();
         $gesamt = array();
+        $linepos = array();
         extract($_REQUEST);
         $dataset = load_single_dataset ($link, $id);
         if ($dataset == NULL)
@@ -44,7 +46,7 @@ include 'table.php';
             $pay = $zahlungsart == 'bar' ? 0 : 1;
             $typ2 = $typ == 'alt' ? 0 : 1;
             $invoice_id = new_invoice ($link, $id, $typ2, $pay);
-            write_invoice_lines ($link, $invoice_id, $stueck, $einzel, $bez);
+            write_invoice_lines ($link, $invoice_id, $stueck, $einzel, $bez, $linepos);
             header ("Location: index.php");
             exit;
         }

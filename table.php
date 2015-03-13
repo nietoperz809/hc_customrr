@@ -74,6 +74,10 @@ function buttonbar()
     echo "<br/><br/><input type='submit' name='rech' value='rechnung erstellen'>";
 }
 
+/**
+ * Make radio buttons for invoice form
+ * @param type $arr $_RESPONSE
+ */
 function invoice_radiobuttons ($arr)
 {   
     define("CHECK", "checked = 'checked'");
@@ -98,10 +102,19 @@ function invoice_radiobuttons ($arr)
     echo "<Input type = 'Radio' Name ='typ' value= 'alt' $c4>Gebraucht";
 }
 
-function invoice_row ($a, $b, $c, $d)
+/**
+ * 
+ * @param type $a
+ * @param type $b
+ * @param type $c
+ * @param type $d
+ * @param $pos row order
+ */
+function invoice_row ($a, $b, $c, $d, $pos)
 {
-    echo "<tr>"
-    . "<td><input type='text' size='6' name='stueck[]' value='$a'></td>"
+    echo "\n<tr>"
+    . "<td> <input type='hidden' name='linepos[]' value='$pos'>"
+    . "<input type='text' size='6' name='stueck[]' value='$a'></td>"
     . "<td><input type='text' size='60' name='bez[]' value='$b'></td>"
     . "<td><input type='text' name='einzel[]' value='$c'></td>"
     . "<td><input type='text' name='gesamt[]' value='$d' readonly></td>"
@@ -140,11 +153,11 @@ function invoice_table ($stueck, $bez, $einzel, $gesamt, $newline=1)
             $sum = math_eval($stueck[$n]) * $fixed;
             $gesamt[$n] = $sum;
         }
-        invoice_row($stueck[$n], $bez[$n], $einzel[$n], $sum);
+        invoice_row($stueck[$n], $bez[$n], $einzel[$n], $sum, $n);
     }
     if ($newline == 1)
     {
-        invoice_row('', '', '', ''); // Insert empty row
+        invoice_row('', '', '', '', $n); // Insert empty row
     }
     // Add all sums
     $sum = 0;

@@ -109,14 +109,15 @@ function new_invoice ($link, $cust_id, $typ, $payment)
  * @param type $numitems number of items (array)
  * @param type $price price of one item (array)
  * @param type $text description (array)
+ * @param type $linepos position  (array)
  */
-function write_invoice_lines ($link, $inv_id, $numitems, $price, $text)
+function write_invoice_lines ($link, $inv_id, $numitems, $price, $text, $linepos)
 {
     $count = count ($numitems);
     for ($n=0; $n<$count; $n++)
     {
-        $q = "insert into invoice_line (invoice_id, items, price, text) "
-             . "values ('$inv_id', '$numitems[$n]', '$price[$n]', '$text[$n]')";
+        $q = "insert into invoice_line (invoice_id, items, price, text, line_pos) "
+             . "values ('$inv_id', '$numitems[$n]', '$price[$n]', '$text[$n]', '$linepos[$n]')";
         mysqli_query ($link, $q);
     }
 }
