@@ -7,7 +7,8 @@ and open the template in the editor.
 <?php
 include 'dbaccess.php';
 include 'table.php';
-include 'misc.php'
+include 'misc.php';
+include 'pdf_template.php';
 ?>
 
 <html>
