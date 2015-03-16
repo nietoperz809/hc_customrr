@@ -89,7 +89,7 @@ function invoice_number ($pdf, $x, $y, $num)
     out ($pdf, "Das Lieferdatum entspricht dem Rechnungsdatum");
 }
 
-function table ($pdf, $x, $y)
+function table_header ($pdf, $x, $y)
 {
     $pdf->SetFont('times','B',12);
     $pdf->SetXY ($x, $y);
@@ -101,6 +101,30 @@ function table ($pdf, $x, $y)
     $pdf->SetLineWidth (0.5);
     $pdf->SetDrawColor (0,0,0);
     $pdf->Line($x-5, $y+5, $x+170, $y+5); 
+}
+
+/**
+ * Generates Table rows
+ * @param FPDF $pdf PDF object
+ * @param int $x start X
+ * @param int $y start Y
+ * @param array $counts 
+ * @param array $prices
+ */
+function table_rows ($pdf, $x, $y, $counts, $prices, $names)
+{
+    $counts = array (1,2,3);
+    $prices = array (4,5,6);
+    $names = array ('hallo', 'dumm', 'doof');
+
+    $pdf->SetFont('times','',12);
+    $num = count ($counts);
+    for ($n=0; $n<$num; $n++)
+    {
+        $pdf->SetXY ($x, $y);
+        out ($pdf, $counts[$n]."              ".$names[$n]);
+        $y += 5;
+    }
 }
 
 function footer1 ($pdf, $x, $y)
@@ -142,16 +166,24 @@ function endtext ($pdf, $x, $y, $type1, $type2)
     $pdf->SetFont('times','BI',10);
     $pdf->SetXY ($x, $y);
     if ($type1 == TRUE)
+    {
         out ($pdf, "6 Monate Gewährleistung");
+    }
     else
+    {
         out ($pdf, "12 Monate Herstellergarantie");
+    }
     $pdf->SetXY ($x, $y+5);
     out ($pdf, "Wir danken für Ihren Auftrag.");
     $pdf->SetXY ($x, $y+10);
     if ($type2 == TRUE)
+    {
         out ($pdf, "Betrag bar erhalten.");
+    }
     else
+    {
         out ($pdf, "Zahlbar sofort ohne Abzug auf unser Konto.");
+    }
 }
 
 function create_pdf() 
@@ -163,7 +195,8 @@ function create_pdf()
     $pdf->Image ('pix/hanse.png', 115, 25);
     set_date ($pdf, 150, 96);
     invoice_number($pdf, 15, 120, 1234);
-    table ($pdf, 20, 140);
+    table_header ($pdf, 20, 140);
+    table_rows ($pdf, 25, 147, 0,0,0);
     footer2 ($pdf, 15, 250);
     signatures ($pdf, 15, 240);
     endtext($pdf, 15, 215, FALSE, FALSE);

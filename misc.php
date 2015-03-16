@@ -11,3 +11,12 @@ function math_eval($s)
     return $ma;
 }
 
+function spc ($n)
+{
+    $s = '';
+    while ($n--)
+    {
+        $s .= ' ';
+    }
+    return $s;
+}
