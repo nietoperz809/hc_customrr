@@ -1,40 +1,52 @@
 <?php
 
+include ('pdf/fpdf.php'); 
+
+/**
+ * Converts UTF8 to win 1252
+ * @param type $in
+ * @return type
+ */
 function conv ($in)
 {
     return iconv ('UTF-8', 'windows-1252', $in);
 }
 
-function hcheader (FPDF $pdf, $xstart, $ystart)
+function out ($pdf, $txt)
 {
-    $pdf->SetFontSize(12);
+    $pdf->Write(5, conv ($txt));
+}
+
+function hcheader ($pdf, $xstart, $ystart)
+{
+    $pdf->SetFont('times','',12);
     $y = $ystart; $x = $xstart;
     $pdf->Line ($x, $y, $x+80, $y);
     $y += 1;
     $pdf->SetXY ($x,$y);
-    $pdf->Write(5, conv ('• Hardware'));
+    out ($pdf, '• Hardware');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    $pdf->Write(5, conv ('• Software'));
+    out ($pdf, '• Software');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    $pdf->Write(5, conv ('• Netzwerke'));
+    out ($pdf, '• Netzwerke');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    $pdf->Write(5, conv ('• Beratung'));
+    out ($pdf, '• Beratung');
     $y = $ystart; $x = $xstart+30;
     $y += 1;
     $pdf->SetXY ($x,$y);
-    $pdf->Write(5, conv ('• Eigene Werkstatt'));
+    out ($pdf, '• Eigene Werkstatt');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    $pdf->Write(5, conv ('• Vor-Ort-Service'));
+    out ($pdf, '• Vor-Ort-Service');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    $pdf->Write(5, conv ('• 24h-Service'));
+    out ($pdf, '• 24h-Service');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    $pdf->Write(5, conv ('• An- und Verkauf'));
+    out ($pdf, '• An- und Verkauf');
     $y += 6; $x = $xstart;
     $pdf->Line ($x, $y, $x+80, $y);
 }
@@ -43,35 +55,81 @@ function address_field (FPDF $pdf, $x, $y)
 {
     $pdf->SetFontSize(10);
     $pdf->SetXY ($x,$y);
-    $pdf->Write (5, conv ("Hanseatic Computer · Scheidestr. 17 · 30625 Hannover"));
+    out ($pdf, "Hanseatic Computer · Scheidestr. 17 · 30625 Hannover");
     $pdf->SetLineWidth(0.1);
     $pdf->SetDrawColor(200, 200, 200);
     $pdf->Rect($x-5, $y+5, 100, 50); 
     $pdf->SetFontSize(12);
     $pdf->SetXY ($x, $y+60);
-    $pdf->Write (5, conv ("Ihr Zeichen                       "
-                         . "Ihre Nachricht vom                       "
-                         . "Unser Zeichen                       "
-                         . "Durchwahl"));
+    out ($pdf, "Ihr Zeichen                       "
+               . "Ihre Nachricht vom                       "
+               . "Unser Zeichen                       "
+               . "Durchwahl");
 }
 
 function set_date ($pdf, $x, $y)
 {
     $pdf->SetFont('times','U',12);
     $pdf->SetXY ($x, $y);
-    $pdf->Write (5, conv ("Datum: ".date("j.n.Y")));
+    out ($pdf, "Datum: ".date("j.n.Y"));
 }
 
-include ('pdf/fpdf.php'); 
-function testpdf() 
+function invoice_number ($pdf, $x, $y, $num)
+{
+    $pdf->SetFont('times','B', 20);
+    $pdf->SetXY ($x, $y);
+    out ($pdf, "Rechnung Nr.  ".$num);
+    $pdf->SetFont('times','', 10);
+    $pdf->SetXY ($x, $y+8);
+    out ($pdf, "Das Lieferdatum entspricht dem Rechnungsdatum");
+}
+
+function table ($pdf, $x, $y)
+{
+    $pdf->SetFont('times','B',12);
+    $pdf->SetXY ($x, $y);
+    out ($pdf, "Anzahl    Artikel");
+    $pdf->SetXY ($x+95, $y);
+    out ($pdf, "Einzelpreis    Einzelpreis    Gesamtpreis");
+    $pdf->SetXY ($x+95, $y-5);
+    out ($pdf, "  Brutto-           Netto-             Netto-");
+    $pdf->SetLineWidth (0.5);
+    $pdf->SetDrawColor (0,0,0);
+    $pdf->Line($x-5, $y+5, $x+170, $y+5); 
+}
+
+function footer1 ($pdf, $x, $y)
+{
+    $pdf->SetFont('times','',10);
+    $pdf->SetXY ($x, $y);
+    out ($pdf, "Die Ware bleibt bis zu vollständigen Bezahlung unser Eigentum");
+    $pdf->SetXY ($x, $y+5);
+    out ($pdf, "Bankverbindung: Postbank Hannover, BLZ 250 100 30, Konto-Nr. 454382306");
+    $pdf->SetXY ($x, $y+10);
+    out ($pdf, "Ust.-ID DE186984567");
+    $pdf->SetXY ($x, $y+15);
+    out ($pdf, "Geschäftsführer: H. Erkan");
+}
+
+function footer2 ($pdf, $x, $y)
+{
+    $pdf->SetFont('times','',10);
+    $pdf->SetXY ($x, $y);
+    out ($pdf, "Die Lieferung unterliegt gemäß Paragraf 25a UStG der Differenzbesteuerung");
+    footer1 ($pdf, $x, $y+5);
+}
+
+function create_pdf() 
 {
     $pdf = new FPDF('P');
     $pdf->AddPage();
-    $pdf->SetFont('times','',12);
     hcheader ($pdf, 12, 16);
     address_field ($pdf, 15, 45);
     $pdf->Image ('pix/hanse.png', 115, 25);
     set_date ($pdf, 150, 96);
+    invoice_number($pdf, 15, 120, 1234);
+    table ($pdf, 20, 140);
+    footer2 ($pdf, 15, 250);
     $pdf->Output('c:\\test.pdf','F');
 }
 

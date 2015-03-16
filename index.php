@@ -21,7 +21,7 @@ include 'pdf_template.php';
     </head>
     <body>
         <?php
-        testpdf();
+        create_pdf();
         $self = htmlspecialchars($_SERVER["PHP_SELF"]);
         echo "<form action='$self' method='post'>";
         $id = "?";
