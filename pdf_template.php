@@ -127,7 +127,7 @@ function footer2 ($pdf, $x, $y)
 function signatures ($pdf, $x, $y)
 {
     $pdf->SetFont('times','',12);
-    $pdf->SetLineWidth (0.5);
+    $pdf->SetLineWidth (0.1);
     $pdf->SetDrawColor (0,0,0);
     $pdf->Line($x, $y, $x+65, $y);
     $pdf->SetXY ($x+15, $y+2);
@@ -135,6 +135,23 @@ function signatures ($pdf, $x, $y)
     $pdf->SetXY ($x+130, $y+2);
     out ($pdf, "Ware erhalten");
     $pdf->Line($x+110, $y, $x+175, $y); 
+}
+
+function endtext ($pdf, $x, $y, $type1, $type2)
+{
+    $pdf->SetFont('times','BI',10);
+    $pdf->SetXY ($x, $y);
+    if ($type1 == TRUE)
+        out ($pdf, "6 Monate Gewährleistung");
+    else
+        out ($pdf, "12 Monate Herstellergarantie");
+    $pdf->SetXY ($x, $y+5);
+    out ($pdf, "Wir danken für Ihren Auftrag.");
+    $pdf->SetXY ($x, $y+10);
+    if ($type2 == TRUE)
+        out ($pdf, "Betrag bar erhalten.");
+    else
+        out ($pdf, "Zahlbar sofort ohne Abzug auf unser Konto.");
 }
 
 function create_pdf() 
@@ -149,12 +166,14 @@ function create_pdf()
     table ($pdf, 20, 140);
     footer2 ($pdf, 15, 250);
     signatures ($pdf, 15, 240);
+    endtext($pdf, 15, 215, FALSE, FALSE);
     $pdf->Output('c:\\test.pdf','F');
 }
 
 /*
  * Rechnungsnummer jahr/
  * b oder u (bar oder unbar)
+ * filialkennung (a, c, d, usw ...)
  * fortlauf. nummer immer 6 stellig, 
  * ersten beiden stellen == monat (mit führender 0)
  * keine führenden nullen in der fortlaufenden nummer
