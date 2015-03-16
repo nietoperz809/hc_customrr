@@ -122,7 +122,7 @@ function table_rows ($pdf, $x, $y, $counts, $prices, $names)
     for ($n=0; $n<$num; $n++)
     {
         $pdf->SetXY ($x, $y);
-        out ($pdf, $counts[$n]."              ".$names[$n]);
+        out ($pdf, $counts[$n].spc(18).$names[$n]);
         $y += 5;
     }
 }
