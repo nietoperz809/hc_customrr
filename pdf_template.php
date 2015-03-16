@@ -12,6 +12,11 @@ function conv ($in)
     return iconv ('UTF-8', 'windows-1252', $in);
 }
 
+/**
+ * PDF output function
+ * @param type $pdf PDF object
+ * @param type $txt Text to print
+ */
 function out ($pdf, $txt)
 {
     $pdf->Write(5, conv ($txt));
@@ -88,7 +93,7 @@ function table ($pdf, $x, $y)
 {
     $pdf->SetFont('times','B',12);
     $pdf->SetXY ($x, $y);
-    out ($pdf, "Anzahl    Artikel");
+    out ($pdf, "Anzahl           Artikel");
     $pdf->SetXY ($x+95, $y);
     out ($pdf, "Einzelpreis    Einzelpreis    Gesamtpreis");
     $pdf->SetXY ($x+95, $y-5);
@@ -119,6 +124,19 @@ function footer2 ($pdf, $x, $y)
     footer1 ($pdf, $x, $y+5);
 }
 
+function signatures ($pdf, $x, $y)
+{
+    $pdf->SetFont('times','',12);
+    $pdf->SetLineWidth (0.5);
+    $pdf->SetDrawColor (0,0,0);
+    $pdf->Line($x, $y, $x+65, $y);
+    $pdf->SetXY ($x+15, $y+2);
+    out ($pdf, "Hanseatic Computer");
+    $pdf->SetXY ($x+130, $y+2);
+    out ($pdf, "Ware erhalten");
+    $pdf->Line($x+110, $y, $x+175, $y); 
+}
+
 function create_pdf() 
 {
     $pdf = new FPDF('P');
@@ -130,6 +148,7 @@ function create_pdf()
     invoice_number($pdf, 15, 120, 1234);
     table ($pdf, 20, 140);
     footer2 ($pdf, 15, 250);
+    signatures ($pdf, 15, 240);
     $pdf->Output('c:\\test.pdf','F');
 }
 
