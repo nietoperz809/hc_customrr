@@ -103,7 +103,7 @@ function new_invoice ($link, $cust_id, $typ, $payment)
 }
 
 /**
- * 
+ * Stores all lines of invoice into DB
  * @param type $link database link
  * @param type $inv_id invoice id (foreign key)
  * @param type $numitems number of items (array)
@@ -116,8 +116,9 @@ function write_invoice_lines ($link, $inv_id, $numitems, $price, $text, $linepos
     $count = count ($numitems);
     for ($n=0; $n<$count; $n++)
     {
+        $p = round ($price[$n]*100);
         $q = "insert into invoice_line (invoice_id, items, price, text, line_pos) "
-             . "values ('$inv_id', '$numitems[$n]', '$price[$n]', '$text[$n]', '$linepos[$n]')";
+             . "values ('$inv_id', '$numitems[$n]', '$p', '$text[$n]', '$linepos[$n]')";
         mysqli_query ($link, $q);
     }
 }
