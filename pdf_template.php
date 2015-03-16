@@ -95,9 +95,9 @@ function table_header ($pdf, $x, $y)
     $pdf->SetXY ($x, $y);
     out ($pdf, "Anzahl           Artikel");
     $pdf->SetXY ($x+95, $y);
-    out ($pdf, "Einzelpreis    Einzelpreis    Gesamtpreis");
+    out ($pdf, "Einzelpreis    Einzelpreis      Gesamtpreis");
     $pdf->SetXY ($x+95, $y-5);
-    out ($pdf, "  Brutto-           Netto-             Netto-");
+    out ($pdf, "  Brutto-           Netto-                Netto-");
     $pdf->SetLineWidth (0.5);
     $pdf->SetDrawColor (0,0,0);
     $pdf->Line($x-5, $y+5, $x+170, $y+5); 
@@ -114,16 +114,33 @@ function table_header ($pdf, $x, $y)
 function table_rows ($pdf, $x, $y, $counts, $prices, $names)
 {
     $counts = array (1,2,3);
-    $prices = array (4,5,6);
+    $prices = array (41200,500,666);
     $names = array ('hallo', 'dumm', 'doof');
 
-    $pdf->SetFont('times','',12);
+    $pdf->SetFont('courier','',12);
     $num = count ($counts);
+    $xold = $x;
+    $yold = $y;
     for ($n=0; $n<$num; $n++)
     {
+        $netto_e = format_price($prices[$n]);
+        $brutto_e = format_price($prices[$n]);
         $pdf->SetXY ($x, $y);
-        out ($pdf, $counts[$n].spc(18).$names[$n]);
+        out ($pdf, $counts[$n]);
+        $x += 20;
+        $pdf->SetXY ($x, $y);
+        out ($pdf, $names[$n]);
+        $x += 62;
+        $pdf->SetXY ($x, $y);
+        out ($pdf, format_price($prices[$n]));
+        $x += 28;
+        $pdf->SetXY ($x, $y);
+        out ($pdf, $netto_e);
+        $x += 28;
+        $pdf->SetXY ($x, $y);
+        out ($pdf, $brutto_e);
         $y += 5;
+        $x = $xold;
     }
 }
 

@@ -11,12 +11,8 @@ function math_eval($s)
     return $ma;
 }
 
-function spc ($n)
+function format_price ($n)
 {
-    $s = '';
-    while ($n--)
-    {
-        $s .= ' ';
-    }
-    return $s;
+    $m = number_format($n/100, 2, ',','.');
+    return str_pad ($m, 8, ' ',STR_PAD_LEFT).' €';
 }
