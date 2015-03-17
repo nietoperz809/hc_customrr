@@ -8,7 +8,6 @@ and open the template in the editor.
 include 'dbaccess.php';
 include 'table.php';
 include 'misc.php';
-include 'pdf_template.php';
 ?>
 
 <html>
@@ -21,7 +20,7 @@ include 'pdf_template.php';
     </head>
     <body>
         <?php
-        create_pdf();
+        //create_pdf();
         $self = htmlspecialchars($_SERVER["PHP_SELF"]);
         echo "<form action='$self' method='post'>";
         $id = "?";
@@ -104,7 +103,7 @@ include 'pdf_template.php';
         echo "<hr>";     
         main_table($tbsource, $id);
         echo "<hr>";     
-        buttonbar();
+        main_buttonbar();
         echo "</form>";
         ?>
     </body>

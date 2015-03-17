@@ -2,6 +2,7 @@
 include 'misc.php';
 include 'dbaccess.php';
 include 'table.php';
+include 'pdf_template.php';
 ?>
 
 <html>
@@ -48,6 +49,11 @@ include 'table.php';
             $inv_per_year = invoices_per_year ($link, date('Y'));
             $invoice_id = new_invoice ($link, $id, $typ2, $pay, $inv_per_year, $filiale);
             write_invoice_lines ($link, $invoice_id, $stueck, $einzel, $bez, $linepos);
+            
+            // generate PDF
+            $arr1 = get_invoice_by_id($link, $invoice_id);
+            create_pdf($arr1);
+            
             header ("Location: index.php");
             exit;
         }

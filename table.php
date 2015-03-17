@@ -35,6 +35,10 @@ function main_table($input_array, $id)
     . "</tr></tbody></table></div>";
 }
 
+/**
+ * Fills customer result table from SQL query result
+ * @param type $result
+ */
 function result_table ($result)
 {
     echo "<div align='center'><table border = '1'>";
@@ -52,7 +56,7 @@ function result_table ($result)
     echo "</table></div>";
 }
 
-function buttonbar()
+function main_buttonbar()
 {
     echo "<input type='submit' name='bbsub' value='neu' "
     . "title ='Hier klicken um einen neuen Datensatz aufzunehmen'"

@@ -87,7 +87,7 @@ function disable_dataset ($link, $id)
 }
 
 /**
- * 
+ * Creates new invoice entry in DB
  * @param type $link database link
  * @param type $cust_id customer id (foreign key)
  * @param type $typ 0 == alt, 1 == neu
@@ -107,6 +107,12 @@ function new_invoice ($link, $cust_id, $typ, $payment, $inv_per_year, $filiale)
     return $id;
 }
 
+/**
+ * Get number of invoices per year that are stored in DB 
+ * @param type $link DB link
+ * @param int $year Year to search for
+ * @return int
+ */
 function invoices_per_year ($link, $year)
 {
     $q = "SELECT COUNT(*) FROM `invoice` WHERE YEAR(date) = $year";
@@ -136,4 +142,18 @@ function write_invoice_lines ($link, $inv_id, $numitems, $price, $text, $linepos
              . "values ('$inv_id', '$numitems[$n]', '$p', '$text[$n]', '$linepos[$n]')";
         mysqli_query ($link, $q);
     }
+}
+
+/**
+ * Reads invoice main record into array
+ * @param type $link DB link
+ * @param type $id id of record
+ * @return type Array containing search result
+ */
+function get_invoice_by_id ($link, $id)
+{
+    $q = "SELECT * FROM invoice WHERE id = '$id'";
+    $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
+    $arr = mysqli_fetch_array($result);
+    return $arr;
 }

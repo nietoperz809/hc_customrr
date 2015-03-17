@@ -223,21 +223,22 @@ function endtext ($pdf, $x, $y, $type1, $type2)
     }
 }
 
-function create_pdf() 
+function create_pdf ($arr_invoice) 
 {
+    $filename = urlencode($arr_invoice['code']);
     $pdf = new FPDF('P');
     $pdf->AddPage();
     hcheader ($pdf, 12, 16);
     address_field ($pdf, 15, 45);
     $pdf->Image ('pix/hanse.png', 115, 25);
     set_date ($pdf, 150, 96);
-    invoice_number($pdf, 15, 120, 1234);
+    invoice_number($pdf, 15, 120, $arr_invoice['code']);
     table_header ($pdf, 20, 140);
     table_rows ($pdf, 25, 147, 0,0,0);
     footer2 ($pdf, 15, 250);
     signatures ($pdf, 15, 240);
     endtext($pdf, 15, 215, FALSE, FALSE);
-    $pdf->Output('c:\\test.pdf','F');
+    $pdf->Output('c:\\'.$filename.'.pdf','F');
 }
 
 
