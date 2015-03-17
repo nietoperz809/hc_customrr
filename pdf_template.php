@@ -240,20 +240,5 @@ function create_pdf()
     $pdf->Output('c:\\test.pdf','F');
 }
 
-/*
- * Rechnungsnummer jahr/
- * b oder u (bar oder unbar)
- * filialkennung (a, c, d, usw ...)
- * fortlauf. nummer immer 6 stellig, 
- * ersten beiden stellen == monat (mit führender 0)
- * keine führenden nullen in der fortlaufenden nummer
- * reset der fortlaufenden nummer am jahresanfang
- * 
- *  
- * 
- * 
- * 
- * 
- */
 
 

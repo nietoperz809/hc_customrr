@@ -30,7 +30,7 @@ include 'table.php';
         }
         echo "<form action='$self' method='post'>";
         echo "<input type='hidden' name ='id' value='$id'>"; // keep id alive
-        invoice_radiobuttons($_REQUEST);
+        invoice_form_header($_REQUEST);
         $newline = 1;
         if (isset($rech)) // don't make empty row
         {
@@ -45,7 +45,8 @@ include 'table.php';
             
             $pay = $zahlungsart == 'bar' ? 0 : 1;
             $typ2 = $typ == 'alt' ? 0 : 1;
-            $invoice_id = new_invoice ($link, $id, $typ2, $pay);
+            $inv_per_year = invoices_per_year ($link, date('Y'));
+            $invoice_id = new_invoice ($link, $id, $typ2, $pay, $inv_per_year, $filiale);
             write_invoice_lines ($link, $invoice_id, $stueck, $einzel, $bez, $linepos);
             header ("Location: index.php");
             exit;

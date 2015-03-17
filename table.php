@@ -78,7 +78,7 @@ function buttonbar()
  * Make radio buttons for invoice form
  * @param type $arr $_RESPONSE
  */
-function invoice_radiobuttons ($arr)
+function invoice_form_header ($arr)
 {   
     define("CHECK", "checked = 'checked'");
     define("CLEAR", "");
@@ -96,10 +96,16 @@ function invoice_radiobuttons ($arr)
         $c3 = CLEAR;
         $c4 = CHECK;
     }
+    $fil = '?';
+    if (isset ($arr['filiale']))
+    {
+        $fil = $arr['filiale'];
+    }
     echo "<Input type = 'Radio' Name ='zahlungsart' value= 'bar' $c1>Bar";
     echo "<Input type = 'Radio' Name ='zahlungsart' value= 'überweisung' $c2>Überweisung";
     echo "<Input type = 'Radio' Name ='typ' value= 'neu' $c3>Neu/Dienstleistung";
     echo "<Input type = 'Radio' Name ='typ' value= 'alt' $c4>Gebraucht";
+    echo "</br>Filiale: <Input type = 'text' Name ='filiale' value= '$fil'>";
 }
 
 /**

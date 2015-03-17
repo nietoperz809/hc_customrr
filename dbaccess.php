@@ -94,12 +94,22 @@ function disable_dataset ($link, $id)
  * @param type $payment 0 == bar, 1 == überweisung 
  * @return type
  */
-function new_invoice ($link, $cust_id, $typ, $payment)
+function new_invoice ($link, $cust_id, $typ, $payment, $inv_per_year, $filiale)
 {
-    $q = "insert into invoice (cust_id, typ, payment) values ('$cust_id', '$typ', '$payment')";
+    $q = "insert into invoice (cust_id, typ, payment, code) values ('$cust_id', '$typ', '$payment', '$inv_per_year')";
     mysqli_query ($link, $q);
     $id = mysqli_insert_id($link);
     return $id;
+}
+
+function invoices_per_year ($link, $year)
+{
+    $q = "SELECT COUNT(*) FROM `invoice` WHERE YEAR(date) = $year";
+    $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
+    $arr = mysqli_fetch_array($result);
+    if ($arr == NULL)
+        return 0;
+    return $arr[0];
 }
 
 /**
