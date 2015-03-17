@@ -103,6 +103,25 @@ function table_header ($pdf, $x, $y)
     $pdf->Line($x-5, $y+5, $x+170, $y+5); 
 }
 
+function table_sumfield ($pdf, $x, $y, $sum)
+{
+    $pdf->SetLineWidth (0.1);
+    $pdf->SetDrawColor (0,0,0);
+    $pdf->Line($x, $y, $x+81, $y); 
+    $pdf->SetFont('courier','B',12);
+    $pdf->SetXY ($x, $y);
+    out ($pdf, " Netto-Gesamtbetrag =".format_price($sum));
+    $y += 5;
+    $pdf->SetXY ($x, $y);
+    out ($pdf, "     Zzgl. 19% MwSt =".format_price(1));
+    $y += 5;
+    $pdf->SetXY ($x, $y);
+    out ($pdf, "Brutto-Gesamtbetrag =".format_price(999));
+    $y += 5;
+    $pdf->Line($x, $y, $x+81, $y); 
+    $pdf->Line($x, $y+1, $x+81, $y+1); 
+}
+
 /**
  * Generates Table rows
  * @param FPDF $pdf PDF object
@@ -142,6 +161,7 @@ function table_rows ($pdf, $x, $y, $counts, $prices, $names)
         $y += 5;
         $x = $xold;
     }
+    table_sumfield ($pdf, $x+84, $y, 1234567);
 }
 
 function footer1 ($pdf, $x, $y)
