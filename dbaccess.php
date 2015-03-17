@@ -96,7 +96,12 @@ function disable_dataset ($link, $id)
  */
 function new_invoice ($link, $cust_id, $typ, $payment, $inv_per_year, $filiale)
 {
-    $q = "insert into invoice (cust_id, typ, payment, code) values ('$cust_id', '$typ', '$payment', '$inv_per_year')";
+    $code = date('Y')
+            . ($payment == TRUE ? 'U' : 'B')
+            . $filiale
+            . date ("m")
+            . $inv_per_year;
+    $q = "insert into invoice (cust_id, typ, payment, code) values ('$cust_id', '$typ', '$payment', '$code')";
     mysqli_query ($link, $q);
     $id = mysqli_insert_id($link);
     return $id;
