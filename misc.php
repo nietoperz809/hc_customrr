@@ -16,3 +16,13 @@ function format_price ($n)
     $m = number_format($n/100, 2, ',','.');
     return str_pad ($m, 8, ' ',STR_PAD_LEFT).' €';
 }
+
+/**
+ * Helper func: prints variable and exits
+ * @param type $x
+ */
+function dbg ($x)
+{
+    print_r ($x);
+    exit;
+}

@@ -138,10 +138,23 @@ function write_invoice_lines ($link, $inv_id, $numitems, $price, $text, $linepos
     for ($n=0; $n<$count; $n++)
     {
         $p = round ($price[$n]*100);
-        $q = "insert into invoice_line (invoice_id, items, price, text, line_pos) "
+        $q = "insert into invoice_line (invoice_id, items, price, text, linepos) "
              . "values ('$inv_id', '$numitems[$n]', '$p', '$text[$n]', '$linepos[$n]')";
         mysqli_query ($link, $q);
     }
+}
+
+/**
+ * 
+ * @param type $link DB link
+ * @param int $inv_id invoice ID
+ * @return type SQL query resultset
+ */
+function read_invoice_lines ($link, $inv_id)
+{
+    $q = "SELECT * FROM invoice_line WHERE invoice_id = '$inv_id' order by linepos";
+    $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
+    return $result;
 }
 
 /**

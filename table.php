@@ -76,6 +76,8 @@ function main_buttonbar()
     . "title ='Rechts Suchbegriff eingeben und hier klicken um nach einem Kunden zu suchen'>";
     echo "<input type='text' name='bbt_seek'>";
     echo "<br/><br/><input type='submit' name='rech' value='rechnung erstellen'>";
+    echo "<br/><br/><input type='submit' name='old_rechbutt' value='rechnung bearbeiten'>";
+    echo "<input type='text' name='old_rechnr'>";
 }
 
 /**

@@ -23,6 +23,13 @@ include 'pdf_template.php';
         $gesamt = array();
         $linepos = array();
         extract($_REQUEST);
+        print_r ($_REQUEST);
+        if (isset ($o_rnum)) // Edit existing invoice
+        {
+            $rnum = urldecode($o_rnum);
+            echo "laladumm";
+            exit;
+        }
         $dataset = get_customer_by_id ($link, $id);
         if ($dataset == NULL)
         {
@@ -51,14 +58,15 @@ include 'pdf_template.php';
             write_invoice_lines ($link, $invoice_id, $stueck, $einzel, $bez, $linepos);
             
             // generate PDF
-            $arr1 = get_invoice_by_id($link, $invoice_id);  // invoice
-            $arr2 = get_customer_by_id($link, $arr1['cust_id']); // customer
-            create_pdf($arr1, $arr2);
+            $arr1 = get_invoice_by_id ($link, $invoice_id);  // invoice
+            $arr2 = get_customer_by_id ($link, $arr1['cust_id']); // customer
+            $inv_lines = read_invoice_lines ($link, $invoice_id); // invoice lines
+            create_pdf($arr1, $arr2, $inv_lines);
             
             header ("Location: index.php");
             exit;
         }
-        else if (isset ($break))
+        else if (isset ($break))  // Abbruch
         {
             header ("Location: index.php");
             exit;

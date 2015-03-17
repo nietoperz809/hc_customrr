@@ -153,38 +153,42 @@ function table_sumfield ($pdf, $x, $y, $sum)
  * @param array $counts 
  * @param array $prices
  */
-function table_rows ($pdf, $x, $y, $counts, $prices, $names)
+function table_rows ($pdf, $x, $y, $inv_lines)
 {
-    $counts = array (1,2,3);
-    $prices = array (41200,500,666);
-    $names = array ('hallo', 'dumm', 'doof');
-
     $pdf->SetFont('courier','',12);
-    $num = count ($counts);
     $xold = $x;
     $yold = $y;
-    for ($n=0; $n<$num; $n++)
+    $netto_sum = 0;
+    while (1)
     {
-        $netto_e = format_price($prices[$n]);
-        $brutto_e = format_price($prices[$n]);
+        $arr = mysqli_fetch_array($inv_lines);
+        if ($arr == NULL)
+            break;
+        $price = $arr['price'];
+        $text = $arr['text'];
+        $counts = $arr['items'];
+        $netto_e = $price*100/119;
+        $brutto_e = $price;
+        $netto_g = $counts*$price*100/119;
         $pdf->SetXY ($x, $y);
-        out ($pdf, $counts[$n]);
+        out ($pdf, $counts);
         $x += 20;
         $pdf->SetXY ($x, $y);
-        out ($pdf, $names[$n]);
+        out ($pdf, $text);
         $x += 62;
         $pdf->SetXY ($x, $y);
-        out ($pdf, format_price($prices[$n]));
+        out ($pdf, format_price($brutto_e));
         $x += 28;
         $pdf->SetXY ($x, $y);
-        out ($pdf, $netto_e);
+        out ($pdf, format_price($netto_e));
         $x += 28;
         $pdf->SetXY ($x, $y);
-        out ($pdf, $brutto_e);
+        out ($pdf, format_price($netto_g));
         $y += 5;
         $x = $xold;
+        $netto_sum += $netto_g;
     }
-    table_sumfield ($pdf, $x+84, $y, 1234567);
+    table_sumfield ($pdf, $x+84, $y, $netto_sum);
 }
 
 function footer1 ($pdf, $x, $y)
@@ -251,7 +255,7 @@ function endtext ($pdf, $x, $y, $type1, $type2)
  * @param array $arr_invoice invoice data 
  * @param array $arr_customer customer data
  */
-function create_pdf ($arr_invoice, $arr_customer) 
+function create_pdf ($arr_invoice, $arr_customer, $q_inv_lines) 
 {
     $filename = urlencode($arr_invoice['code']);
     $pdf = new FPDF('P');
@@ -262,7 +266,7 @@ function create_pdf ($arr_invoice, $arr_customer)
     set_date ($pdf, 150, 96);
     invoice_number($pdf, 15, 120, $arr_invoice['code']);
     table_header ($pdf, 20, 140);
-    table_rows ($pdf, 25, 147, 0,0,0);
+    table_rows ($pdf, 25, 147, $q_inv_lines);
     footer2 ($pdf, 15, 250);
     signatures ($pdf, 15, 240);
     endtext($pdf, 15, 215, FALSE, FALSE);

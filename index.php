@@ -33,6 +33,13 @@ include 'misc.php';
             header ("Location: invoice.php?id=$id");
             exit;
         }
+        // Edit invoice
+        else if (isset($_REQUEST['old_rechbutt']))
+        {
+            $rnum = urlencode ($_REQUEST['old_rechnr']);
+            header ("Location: invoice.php?o_rnum=$rnum");
+            exit;
+        }
         // show dataset from search table
         else if (isset($_REQUEST['idbutton']))
         {
