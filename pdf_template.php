@@ -56,7 +56,14 @@ function hcheader ($pdf, $xstart, $ystart)
     $pdf->Line ($x, $y, $x+80, $y);
 }
 
-function address_field (FPDF $pdf, $x, $y)
+/**
+ * Draws the address field
+ * @param FPDF $pdf PDF object
+ * @param type $x xPos
+ * @param type $y yPos
+ * @param type $arr Associative Array with values from DB
+ */
+function address_field (FPDF $pdf, $x, $y, $arr)
 {
     $pdf->SetFontSize(10);
     $pdf->SetXY ($x,$y);
@@ -64,6 +71,22 @@ function address_field (FPDF $pdf, $x, $y)
     $pdf->SetLineWidth(0.1);
     $pdf->SetDrawColor(200, 200, 200);
     $pdf->Rect($x-5, $y+5, 100, 50); 
+    
+    $pdf->SetFontSize(14);
+    $y1 = $y+20;
+    $x1 = $x+10;
+    $pdf->SetXY ($x1,$y1);
+    out ($pdf, $arr['anrede']);
+    $y1 += 5;
+    $pdf->SetXY ($x1,$y1);
+    out ($pdf, $arr['vname'].' '.$arr['name']);
+    $y1 += 5;
+    $pdf->SetXY ($x1,$y1);
+    out ($pdf, $arr['street'].' '.$arr['hausnr']);
+    $y1 += 5;
+    $pdf->SetXY ($x1,$y1);
+    out ($pdf, $arr['plz'].' '.$arr['ort']);
+    
     $pdf->SetFontSize(12);
     $pdf->SetXY ($x, $y+60);
     out ($pdf, "Ihr Zeichen                       "
@@ -223,13 +246,18 @@ function endtext ($pdf, $x, $y, $type1, $type2)
     }
 }
 
-function create_pdf ($arr_invoice) 
+/**
+ * Creates invoice as PDF 
+ * @param array $arr_invoice invoice data 
+ * @param array $arr_customer customer data
+ */
+function create_pdf ($arr_invoice, $arr_customer) 
 {
     $filename = urlencode($arr_invoice['code']);
     $pdf = new FPDF('P');
     $pdf->AddPage();
     hcheader ($pdf, 12, 16);
-    address_field ($pdf, 15, 45);
+    address_field ($pdf, 15, 45, $arr_customer);
     $pdf->Image ('pix/hanse.png', 115, 25);
     set_date ($pdf, 150, 96);
     invoice_number($pdf, 15, 120, $arr_invoice['code']);

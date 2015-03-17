@@ -100,7 +100,7 @@ function invoice_form_header ($arr)
         $c3 = CLEAR;
         $c4 = CHECK;
     }
-    $fil = '?';
+    $fil = 'A';
     if (isset ($arr['filiale']))
     {
         $fil = $arr['filiale'];

@@ -55,7 +55,7 @@ function update_dataset ($link, $id, $input_array)
     mysqli_query ($link, $q);
 }
 
-function load_single_dataset ($link, $id)
+function get_customer_by_id ($link, $id)
 {
     $q = "select * from customer where id ='$id' and enabled ='1'";
     $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);

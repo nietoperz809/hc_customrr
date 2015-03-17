@@ -37,7 +37,7 @@ include 'misc.php';
         else if (isset($_REQUEST['idbutton']))
         {
             $id = $_REQUEST['idbutton'];
-            $arr = load_single_dataset($link, $id);
+            $arr = get_customer_by_id($link, $id);
             $tbsource = &$arr;
         }
         // Seek button clicked
@@ -93,7 +93,7 @@ include 'misc.php';
                 if (isset($_REQUEST['bbt_show']))
                 {
                     $id = $_REQUEST['bbt_show'];
-                    $arr = load_single_dataset($link, $id);
+                    $arr = get_customer_by_id($link, $id);
                     if ($arr == NULL)
                         $id = "deleted";
                     $tbsource = &$arr;
