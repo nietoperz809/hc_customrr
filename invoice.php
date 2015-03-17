@@ -23,7 +23,6 @@ include 'pdf_template.php';
         $gesamt = array();
         $linepos = array();
         extract($_REQUEST);
-        print_r ($_REQUEST);
         if (isset ($o_rnum)) // Edit existing invoice
         {
             $rnum = urldecode($o_rnum);

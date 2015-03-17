@@ -170,3 +170,17 @@ function get_invoice_by_id ($link, $id)
     $arr = mysqli_fetch_array($result);
     return $arr;
 }
+
+function delete_invoice ($link, $code)
+{
+    $q = "SELECT id FROM `invoice` WHERE code = '$code'";
+    $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
+    $arr = mysqli_fetch_array($result);
+    if ($arr == NULL)
+        return;
+    $id = $arr[0];
+    $q = "delete from invoice where id='$id'";
+    mysqli_query ($link, $q);
+    $q = "delete from invoice_line where invoice_id='$id'";
+    mysqli_query ($link, $q);
+}
