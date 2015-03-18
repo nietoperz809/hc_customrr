@@ -171,16 +171,29 @@ function get_invoice_by_id ($link, $id)
     return $arr;
 }
 
+/**
+ * Deletes invoice and all of its lines
+ * @param type $link DB link
+ * @param string $code
+ * @return type null
+ */
 function delete_invoice ($link, $code)
 {
     $q = "SELECT id FROM `invoice` WHERE code = '$code'";
     $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
     $arr = mysqli_fetch_array($result);
+ print_r ($arr);
     if ($arr == NULL)
         return;
-    $id = $arr[0];
-    $q = "delete from invoice where id='$id'";
-    mysqli_query ($link, $q);
-    $q = "delete from invoice_line where invoice_id='$id'";
+    $id = $arr['id'];
+    mysqli_free_result($result); // NECESSARY!! otherwise out of sync   
+    $q = "delete from invoice where id = '$id'";
+ echo "</br>".$q;
+    $ret = mysqli_query ($link, $q);
+echo "</br>".$ret;
+echo "</br>".mysqli_error($link);
+    $q = "delete from invoice_line where invoice_id = '$id'";
+echo "</br>".$ret;
+echo "</br>".mysqli_error($link);
     mysqli_query ($link, $q);
 }

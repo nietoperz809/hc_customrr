@@ -181,9 +181,14 @@ function invoice_table ($stueck, $bez, $einzel, $gesamt, $newline=1)
     echo "<h3>Endpreis: $sum</h3>";
 }
 
+/**
+ * makes invoice form uttons
+ * fist button is ivisible to catch 'enter-key' event
+ */
 function invoice_buttons()
 {
-    echo "<input type='submit' name='rech_ok' value='fertig'>"
+    echo "<input type='submit' name='noaction' class = 'default 'value='noaction'>" 
+    . "<input type='submit' name='rech_ok' value='fertig'>"
     . "<input type='submit' name='rech' value='rechnen'>"
     . "<input type='submit' name='next' value='nächste position'>"
     . "<input type='submit' name='kill' value='letzte position löschen'>"

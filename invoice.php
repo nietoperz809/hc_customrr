@@ -9,6 +9,14 @@ include 'pdf_template.php';
     <head>
         <style>
             body {text-align:center;}
+        input.default {
+            width: 0px;
+            height: 0px;
+            margin: 0px;
+            padding: 0px;
+            outline: none;
+            border: 0px;
+            }        
         </style>
         <meta charset="UTF-8">
         <title></title>
@@ -16,7 +24,7 @@ include 'pdf_template.php';
     <body>
         <?php
         $self = htmlspecialchars($_SERVER["PHP_SELF"]);
-        $link = connect();
+        $link = connect();  // open DB
         $stueck = array();
         $bez = array();
         $einzel = array();
@@ -26,6 +34,7 @@ include 'pdf_template.php';
         if (isset ($o_rnum)) // Edit existing invoice
         {
             $rnum = urldecode($o_rnum);
+            delete_invoice($link, $rnum);
             echo "laladumm";
             exit;
         }
