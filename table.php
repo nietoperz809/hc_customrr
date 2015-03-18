@@ -144,7 +144,7 @@ function invoice_row ($a, $b, $c, $pos)
 function invoice_table ($stueck, $bez, $einzel, $newline=1)
 {
     echo "<p><table align='center'>";
-    echo "<tr><th>Stück</th><th>Bezeichnung</th><th>Einzelpreis</th><th>Gesamtpreis</th></tr>";
+    echo "<tr><th>Stück</th><th>Bezeichnung</th><th>Einzelpreis</th></tr>";
     $count = count ($stueck);
     if ($count > 0 && $newline == -1)
     {
@@ -170,7 +170,6 @@ function invoice_buttons()
 {
     echo "<input type='submit' name='noaction' class = 'default 'value='noaction'>" 
     . "<input type='submit' name='rech_ok' value='fertig'>"
-    . "<input type='submit' name='rech' value='rechnen'>"
     . "<input type='submit' name='next' value='nächste position'>"
     . "<input type='submit' name='kill' value='letzte position löschen'>"
     . "<input type='submit' name='break' value='abbruch'>";
