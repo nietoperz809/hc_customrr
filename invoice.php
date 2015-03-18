@@ -28,7 +28,6 @@ include 'pdf_template.php';
         $stueck = array();
         $bez = array();
         $einzel = array();
-        $gesamt = array();
         $linepos = array();
         extract($_REQUEST);
         if (isset ($o_rnum)) // Edit existing invoice
@@ -38,8 +37,8 @@ include 'pdf_template.php';
             echo "laladumm";
             exit;
         }
-        $dataset = get_customer_by_id ($link, $id);
-        if ($dataset == NULL)
+        $customer = get_customer_by_id ($link, $id);
+        if ($customer == NULL)
         {
             echo ("Datenssatz ungültig");
             goto page_end;
@@ -79,7 +78,7 @@ include 'pdf_template.php';
             header ("Location: index.php");
             exit;
         }
-        invoice_table ($stueck, $bez, $einzel, $gesamt, $newline);
+        invoice_table ($stueck, $bez, $einzel, $newline);
         echo "<hr>";
         invoice_buttons();
         echo "</form>";

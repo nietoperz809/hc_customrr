@@ -55,6 +55,12 @@ function update_dataset ($link, $id, $input_array)
     mysqli_query ($link, $q);
 }
 
+/**
+ * reads entire customer record
+ * @param type $link DB link
+ * @param type $id id of record
+ * @return type associative array containg the record
+ */
 function get_customer_by_id ($link, $id)
 {
     $q = "select * from customer where id ='$id' and enabled ='1'";
@@ -158,6 +164,32 @@ function read_invoice_lines ($link, $inv_id)
 }
 
 /**
+ * Reads all lines of invoice as array
+ * @param type $link DB link 
+ * @param type $inv_id invoice id
+ * @return array (of arrays) ($items, $price, $text, $line_pos)
+ */
+function read_invoice_lines_as_array ($link, $inv_id)
+{
+    $res = read_invoice_lines($link, $inv_id);
+    $items = array();
+    $price = array();
+    $text = array();
+    $line_pos = array();
+    while (1)
+    {
+        $arr = mysqli_fetch_array($res);
+        if ($arr == NULL)
+            break;
+        $items = $arr['items'];
+        $price = $arr['price'];
+        $text = $arr['text'];
+        $line_pos = $arr['line_pos'];
+    }
+    return array ($items, $price, $text, $line_pos);
+}
+
+/**
  * Reads invoice main record into array
  * @param type $link DB link
  * @param type $id id of record
@@ -172,28 +204,32 @@ function get_invoice_by_id ($link, $id)
 }
 
 /**
+ * Gets invoice id by code
+ * @param type $link DB link
+ * @param type $code invoice code
+ * @return int invoice id or -1 on error
+ */
+function get_invoice_id_by_code ($link, $code)
+{
+    $q = "SELECT id FROM `invoice` WHERE code = '$code'";
+    $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
+    mysqli_free_result($result); // NECESSARY!! otherwise 'out of sync' may appear   
+    $arr = mysqli_fetch_array($result);
+    if ($arr == NULL)
+        return -1;
+    return $arr['id'];
+}
+
+/**
  * Deletes invoice and all of its lines
  * @param type $link DB link
  * @param string $code
  * @return type null
  */
-function delete_invoice ($link, $code)
+function delete_invoice ($link, $id)
 {
-    $q = "SELECT id FROM `invoice` WHERE code = '$code'";
-    $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
-    $arr = mysqli_fetch_array($result);
- print_r ($arr);
-    if ($arr == NULL)
-        return;
-    $id = $arr['id'];
-    mysqli_free_result($result); // NECESSARY!! otherwise out of sync   
     $q = "delete from invoice where id = '$id'";
- echo "</br>".$q;
     $ret = mysqli_query ($link, $q);
-echo "</br>".$ret;
-echo "</br>".mysqli_error($link);
     $q = "delete from invoice_line where invoice_id = '$id'";
-echo "</br>".$ret;
-echo "</br>".mysqli_error($link);
     mysqli_query ($link, $q);
 }

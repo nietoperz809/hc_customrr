@@ -119,17 +119,15 @@ function invoice_form_header ($arr)
  * @param type $a
  * @param type $b
  * @param type $c
- * @param type $d
  * @param $pos row order
  */
-function invoice_row ($a, $b, $c, $d, $pos)
+function invoice_row ($a, $b, $c, $pos)
 {
     echo "\n<tr>"
     . "<td> <input type='hidden' name='linepos[]' value='$pos'>"
     . "<input type='text' size='6' name='stueck[]' value='$a'></td>"
     . "<td><input type='text' size='60' name='bez[]' value='$b'></td>"
     . "<td><input type='text' name='einzel[]' value='$c'></td>"
-    . "<td><input type='text' name='gesamt[]' value='$d' readonly></td>"
     . "</tr>";
 }
 
@@ -143,7 +141,7 @@ function invoice_row ($a, $b, $c, $d, $pos)
  *                      0 == no action
  *                     -1 == delete last row
  */
-function invoice_table ($stueck, $bez, $einzel, $gesamt, $newline=1)
+function invoice_table ($stueck, $bez, $einzel, $newline=1)
 {
     echo "<p><table align='center'>";
     echo "<tr><th>Stück</th><th>Bezeichnung</th><th>Einzelpreis</th><th>Gesamtpreis</th></tr>";
@@ -152,33 +150,16 @@ function invoice_table ($stueck, $bez, $einzel, $gesamt, $newline=1)
     {
         $count--;
     }
-    $sum = 0;
     for ($n=0; $n<$count; $n++)
     {
         $fixed = str_replace(",", ".", $einzel[$n]); // replace comma with colon
-        if ($stueck[$n] =='')
-        {
-            $sum = '';
-        }
-        else
-        {
-            $sum = math_eval($stueck[$n]) * $fixed;
-            $gesamt[$n] = $sum;
-        }
-        invoice_row($stueck[$n], $bez[$n], $einzel[$n], $sum, $n);
+        invoice_row($stueck[$n], $bez[$n], $einzel[$n], $n);
     }
     if ($newline == 1)
     {
-        invoice_row('', '', '', '', $n); // Insert empty row
-    }
-    // Add all sums
-    $sum = 0;
-    for ($n=0; $n<$count; $n++)
-    {
-        $sum += $gesamt[$n];
+        invoice_row('', '', '', $n); // Insert empty row
     }
     echo "</table></p>";
-    echo "<h3>Endpreis: $sum</h3>";
 }
 
 /**
