@@ -33,8 +33,11 @@ include 'pdf_template.php';
         if (isset ($o_rnum)) // Edit existing invoice
         {
             $rnum = urldecode($o_rnum);
-            delete_invoice($link, $rnum);
-            echo "laladumm";
+            $id = get_invoice_id_by_code ($link, $rnum);
+            if ($id == -1)
+                die ("Rechnungsnummer existiert nicht");
+            $all = read_invoice_lines_as_array ($link, $id);
+            print_r($all);
             exit;
         }
         $customer = get_customer_by_id ($link, $id);

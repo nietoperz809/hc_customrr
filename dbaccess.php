@@ -213,8 +213,8 @@ function get_invoice_id_by_code ($link, $code)
 {
     $q = "SELECT id FROM `invoice` WHERE code = '$code'";
     $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
-    mysqli_free_result($result); // NECESSARY!! otherwise 'out of sync' may appear   
     $arr = mysqli_fetch_array($result);
+    mysqli_free_result($result); // NECESSARY!! otherwise 'out of sync' may appear   
     if ($arr == NULL)
         return -1;
     return $arr['id'];
