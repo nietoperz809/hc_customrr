@@ -143,6 +143,8 @@ function write_invoice_lines ($link, $inv_id, $numitems, $price, $text, $linepos
     $count = count ($numitems);
     for ($n=0; $n<$count; $n++)
     {
+        if ($numitems[$n] == 0 && $price[$n] == 0 && $text[$n]=='')
+            continue;
         $p = round ($price[$n]*100);
         $q = "insert into invoice_line (invoice_id, items, price, text, linepos) "
              . "values ('$inv_id', '$numitems[$n]', '$p', '$text[$n]', '$linepos[$n]')";
@@ -160,6 +162,7 @@ function read_invoice_lines ($link, $inv_id)
 {
     $q = "SELECT * FROM invoice_line WHERE invoice_id = '$inv_id' order by linepos";
     $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
+    echo mysqli_error($link);
     return $result;
 }
 
@@ -172,19 +175,21 @@ function read_invoice_lines ($link, $inv_id)
 function read_invoice_lines_as_array ($link, $inv_id)
 {
     $res = read_invoice_lines($link, $inv_id);
+    if ($res == NULL)
+        return NULL;
     $items = array();
     $price = array();
     $text = array();
     $line_pos = array();
     while (1)
     {
-        $arr = mysqli_fetch_array($res);
+        $arr = mysqli_fetch_array ($res);
         if ($arr == NULL)
             break;
-        $items = $arr['items'];
-        $price = $arr['price'];
-        $text = $arr['text'];
-        $line_pos = $arr['line_pos'];
+        $items[] = null_to_empty($arr['items']);
+        $price[] = null_to_empty($arr['price']/100);
+        $text[] = $arr['text'];
+        $line_pos[] = $arr['linepos'];
     }
     return array ($items, $price, $text, $line_pos);
 }
@@ -229,7 +234,7 @@ function get_invoice_id_by_code ($link, $code)
 function delete_invoice ($link, $id)
 {
     $q = "delete from invoice where id = '$id'";
-    $ret = mysqli_query ($link, $q);
+    mysqli_query ($link, $q);
     $q = "delete from invoice_line where invoice_id = '$id'";
     mysqli_query ($link, $q);
 }

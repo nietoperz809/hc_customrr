@@ -17,6 +17,13 @@ function format_price ($n)
     return str_pad ($m, 8, ' ',STR_PAD_LEFT).' €';
 }
 
+function null_to_empty ($n)
+{
+    if ($n == 0)
+        return '';
+    return $n;
+}
+
 /**
  * Helper func: prints variable and exits
  * @param type $x

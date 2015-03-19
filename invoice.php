@@ -30,15 +30,27 @@ include 'pdf_template.php';
         $einzel = array();
         $linepos = array();
         extract($_REQUEST);
+        if (!isset ($rnum))
+        {
+            $rnum = FALSE;
+        }
         if (isset ($o_rnum)) // Edit existing invoice
         {
             $rnum = urldecode($o_rnum);
             $id = get_invoice_id_by_code ($link, $rnum);
             if ($id == -1)
                 die ("Rechnungsnummer existiert nicht");
+            $inv = get_invoice_by_id ($link, $id);
+            $_REQUEST['zahlungsart'] = ($inv['payment'] == 0 ? 'bar' : 'überweisung');
+            $_REQUEST['typ'] = ($inv['typ'] == 0 ? 'alt' : 'neu');
             $all = read_invoice_lines_as_array ($link, $id);
-            print_r($all);
-            exit;
+            if ($all != NULL)
+            {
+                $stueck = $all[0];
+                $bez = $all[2];
+                $einzel = $all[1];
+                $linepos = $all[3];
+            }
         }
         $customer = get_customer_by_id ($link, $id);
         if ($customer == NULL)
@@ -47,7 +59,8 @@ include 'pdf_template.php';
             goto page_end;
         }
         echo "<form action='$self' method='post'>";
-        echo "<input type='hidden' name ='id' value='$id'>"; // keep id alive
+        echo "\n<input type='hidden' name ='id' value='$id'>"; // keep id alive
+        echo "\n<input type='hidden' name ='rnum' value='$rnum'></br>"; // keep id alive
         invoice_form_header($_REQUEST);
         $newline = 1;
         if (isset($rech)) // don't make empty row
@@ -60,9 +73,13 @@ include 'pdf_template.php';
         }
         else if (isset ($rech_ok))  // ready, store into DB
         {
-            
-            $pay = $zahlungsart == 'bar' ? 0 : 1;
-            $typ2 = $typ == 'alt' ? 0 : 1;
+            if ($rnum != FALSE) // delete former invoice
+            {
+                $id = get_invoice_id_by_code ($link, $rnum);
+                delete_invoice ($link, $id);
+            }
+            $pay = ($zahlungsart == 'bar' ? 0 : 1);
+            $typ2 = ($typ == 'alt' ? 0 : 1);
             $inv_per_year = invoices_per_year ($link, date('Y'));
             $invoice_id = new_invoice ($link, $id, $typ2, $pay, $inv_per_year, $filiale);
             write_invoice_lines ($link, $invoice_id, $stueck, $einzel, $bez, $linepos);
