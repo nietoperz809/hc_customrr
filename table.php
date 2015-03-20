@@ -39,18 +39,20 @@ function main_table($input_array, $id)
  * Fills customer result table from SQL query result
  * @param type $result
  */
-function result_table ($result)
+function seek_result_table ($result)
 {
     echo "<div align='center'><table border = '1'>";
     while($row = $result->fetch_assoc())
     {
         extract($row);
         echo "<tr>";
-        echo "<td><input type='submit' name='idbutton' value='$id' "
+        echo "<td>Kunde:&nbsp;<input type='submit' name='idbutton' value='$id' "
                 . "title='Zeige Datensatz für Kundennummer #$id'></td>"
                 . "<td>$anrede</td><td>$vname</td><td>$name</td>"
                 . "<td>$telnr</td><td>$email</td><td>$plz</td><td>$ort</td>"
-                . "<td>$street</td><td>$hausnr</td><td>$remarks</td>";
+                . "<td>$street</td><td>$hausnr</td><td>$remarks</td>"
+                . "<td>Rechnungen:&nbsp;<input type='submit' name='rechbutton' value='$id' "
+                . "title='Zeige Rechnungen für Kundennummer #$id'></td>";
         echo "</tr>";
     }
     echo "</table></div>";
@@ -79,7 +81,6 @@ function main_buttonbar()
     echo "<input type='submit' name='rech' value='rechnung erstellen'>";
     echo "<br/><input type='submit' name='old_rechbutt' value='rechnung bearbeiten'>";
     echo "<input type='text' name='old_rechnr'>";
-    echo "<br/><input type='submit' name='rechlist' value='alle rechnungen des kunden ansehen'>";
 }
 
 /**

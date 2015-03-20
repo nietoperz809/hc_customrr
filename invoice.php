@@ -43,7 +43,7 @@ include 'pdf_template.php';
             {
                 die ("Rechnungsnummer existiert nicht");
             }
-            $inv = get_invoice_by_id ($link, $id);
+            $inv = get_invoice ($link, $id);
             $_REQUEST['zahlungsart'] = ($inv['payment'] == 0 ? 'bar' : 'überweisung');
             $_REQUEST['typ'] = ($inv['typ'] == 0 ? 'alt' : 'neu');
             $all = read_invoice_lines_as_array ($link, $id);
@@ -88,7 +88,7 @@ include 'pdf_template.php';
             write_invoice_lines ($link, $invoice_id, $stueck, $einzel, $bez, $linepos);
             
             // generate PDF
-            $arr1 = get_invoice_by_id ($link, $invoice_id);  // invoice
+            $arr1 = get_invoice ($link, $invoice_id);  // invoice
             $arr2 = get_customer_by_id ($link, $arr1['cust_id']); // customer
             $inv_lines = read_invoice_lines ($link, $invoice_id); // invoice lines
             create_pdf($arr1, $arr2, $inv_lines);

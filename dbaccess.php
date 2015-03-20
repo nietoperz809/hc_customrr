@@ -202,7 +202,7 @@ function read_invoice_lines_as_array ($link, $inv_id)
  * @param type $id id of record
  * @return type Array containing search result
  */
-function get_invoice_by_id ($link, $id)
+function get_invoice ($link, $id)
 {
     $q = "SELECT * FROM invoice WHERE id = '$id'";
     $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
@@ -227,6 +227,13 @@ function get_invoice_id_by_code ($link, $code)
         return -1;
     }
     return $arr['id'];
+}
+
+function get_invoice_by_customer ($link, $customer)
+{
+    $q = "SELECT * FROM `invoice` WHERE cust_id = '$customer'";
+    $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
+    return $result;
 }
 
 /**

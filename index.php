@@ -15,14 +15,19 @@ include 'misc.php';
     </head>
     <body>
         <?php
-        //create_pdf();
         $self = htmlspecialchars($_SERVER["PHP_SELF"]);
         echo "<form action='$self' method='post'>";
         $id = "?";
         $tbsource = &$_REQUEST;
         $link = connect();
-        // Write invoice
-        if (isset($_REQUEST['rech']))
+        if (isset($_REQUEST['rechbutton']))
+        {
+            $id = $_REQUEST['id2'];
+            header ("Location: rechlist.php?id=$id");
+            exit;
+        }
+        // Create invoice
+        else if (isset($_REQUEST['rech']))
         {
             $id = $_REQUEST['id2'];
             header ("Location: invoice.php?id=$id");
@@ -54,7 +59,7 @@ include 'misc.php';
             else 
             {
                 $result = seek_customer($link, $seektxt);
-                result_table ($result);
+                seek_result_table ($result);
             }
             die ("</form></body></html>");
         }
