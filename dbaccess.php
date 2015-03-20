@@ -232,6 +232,7 @@ function get_invoice_id_by_code ($link, $code)
 function get_invoice_by_customer ($link, $customer)
 {
     $q = "SELECT * FROM `invoice` WHERE cust_id = '$customer'";
+echo $q."</br>"; 
     $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
     return $result;
 }
