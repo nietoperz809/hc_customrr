@@ -163,7 +163,9 @@ function table_rows ($pdf, $x, $y, $inv_lines)
     {
         $arr = mysqli_fetch_array($inv_lines);
         if ($arr == NULL)
+        {
             break;
+        }
         $price = $arr['price'];
         $text = $arr['text'];
         $counts = $arr['items'];

@@ -72,12 +72,14 @@ function main_buttonbar()
     echo "<br/><input type='submit' name='bbsub' value='kunde' "
     . "title ='Rechts die Kundennummer eingeben und hier klicken um entsprechenden Datensatz zu zeigen'>";
     echo "<input type='text' name='bbt_show' size='8'>";
-    echo "<br/><br/><input type='submit' name='suchen' value='suchen' "
+    echo "<br/><input type='submit' name='suchen' value='suchen' "
     . "title ='Rechts Suchbegriff eingeben und hier klicken um nach einem Kunden zu suchen'>";
     echo "<input type='text' name='bbt_seek'>";
-    echo "<br/><br/><input type='submit' name='rech' value='rechnung erstellen'>";
-    echo "<br/><br/><input type='submit' name='old_rechbutt' value='rechnung bearbeiten'>";
+    echo "<hr/>";
+    echo "<input type='submit' name='rech' value='rechnung erstellen'>";
+    echo "<br/><input type='submit' name='old_rechbutt' value='rechnung bearbeiten'>";
     echo "<input type='text' name='old_rechnr'>";
+    echo "<br/><input type='submit' name='rechlist' value='alle rechnungen des kunden ansehen'>";
 }
 
 /**

@@ -185,7 +185,9 @@ function read_invoice_lines_as_array ($link, $inv_id)
     {
         $arr = mysqli_fetch_array ($res);
         if ($arr == NULL)
+        {
             break;
+        }
         $items[] = null_to_empty($arr['items']);
         $price[] = null_to_empty($arr['price']/100);
         $text[] = $arr['text'];

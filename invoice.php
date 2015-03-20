@@ -5,6 +5,7 @@ include 'table.php';
 include 'pdf_template.php';
 ?>
 
+<!DOCTYPE html>
 <html>
     <head>
         <style>
