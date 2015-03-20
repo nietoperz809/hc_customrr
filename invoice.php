@@ -39,7 +39,9 @@ include 'pdf_template.php';
             $rnum = urldecode($o_rnum);
             $id = get_invoice_id_by_code ($link, $rnum);
             if ($id == -1)
+            {
                 die ("Rechnungsnummer existiert nicht");
+            }
             $inv = get_invoice_by_id ($link, $id);
             $_REQUEST['zahlungsart'] = ($inv['payment'] == 0 ? 'bar' : 'überweisung');
             $_REQUEST['typ'] = ($inv['typ'] == 0 ? 'alt' : 'neu');

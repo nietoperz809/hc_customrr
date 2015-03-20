@@ -221,7 +221,9 @@ function get_invoice_id_by_code ($link, $code)
     $arr = mysqli_fetch_array($result);
     mysqli_free_result($result); // NECESSARY!! otherwise 'out of sync' may appear   
     if ($arr == NULL)
+    {
         return -1;
+    }
     return $arr['id'];
 }
 
