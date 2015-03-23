@@ -80,7 +80,6 @@ function main_buttonbar()
     echo "<hr/>";
     echo "<input type='submit' name='rech' value='rechnung erstellen'>";
     echo "<br/><input type='submit' name='old_rechbutt' value='rechnung bearbeiten'>";
-    echo "<input type='text' name='old_rechnr'>";
 }
 
 /**

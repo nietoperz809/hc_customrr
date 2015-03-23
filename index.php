@@ -36,8 +36,8 @@ include 'misc.php';
         // Edit invoice
         else if (isset($_REQUEST['old_rechbutt']))
         {
-            $rnum = urlencode ($_REQUEST['old_rechnr']);
-            header ("Location: invoice.php?o_rnum=$rnum");
+            $id = $_REQUEST['id2'];
+            header ("Location: rechlist.php?id=$id");
             exit;
         }
         // show dataset from search table
