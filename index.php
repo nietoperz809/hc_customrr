@@ -70,7 +70,7 @@ include 'misc.php';
             // new button clicked
             if ($bbsub == "neu")
             {
-                $id = new_dataset($link, $_REQUEST);
+                $id = new_customer_dataset($link, $_REQUEST);
             } 
             // update button clicked
             else if ($bbsub == "ändern")
@@ -78,7 +78,7 @@ include 'misc.php';
                 if (isset($_REQUEST['id2']))
                 {
                     $id = $_REQUEST['id2'];
-                    update_dataset($link, $id, $_REQUEST);
+                    update_customer_dataset($link, $id, $_REQUEST);
                     echo "Record $id changed";
                 }
             }
@@ -91,7 +91,7 @@ include 'misc.php';
             else if ($bbsub == "löschen")
             {
                 $id = $_REQUEST['id2'];
-                disable_dataset($link, $id);
+                disable_customer_dataset($link, $id);
                 $tbsource = null;
             }
             // show-customer button clicked

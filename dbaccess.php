@@ -16,7 +16,7 @@ function connect()
     return $link;
 }
 
-function new_dataset ($link, $input_array)
+function new_customer_dataset ($link, $input_array)
 {
     $anrede = "";
     $name = "";
@@ -36,7 +36,7 @@ function new_dataset ($link, $input_array)
     return $id;
 }
 
-function update_dataset ($link, $id, $input_array)
+function update_customer_dataset ($link, $id, $input_array)
 {
     $anrede = "";
     $name = "";
@@ -86,7 +86,7 @@ function seek_customer ($link, $needle)
     return $result;
 }
 
-function disable_dataset ($link, $id)
+function disable_customer_dataset ($link, $id)
 {
     $q = "update customer set enabled = '0' where id ='$id'";
     mysqli_query($link, $q);
