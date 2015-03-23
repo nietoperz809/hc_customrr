@@ -128,6 +128,7 @@ function table_header ($pdf, $x, $y)
 
 function table_sumfield ($pdf, $x, $y, $sum)
 {
+    $mwst = $sum*0.19;
     $pdf->SetLineWidth (0.1);
     $pdf->SetDrawColor (0,0,0);
     $pdf->Line($x, $y, $x+81, $y); 
@@ -136,10 +137,10 @@ function table_sumfield ($pdf, $x, $y, $sum)
     out ($pdf, " Netto-Gesamtbetrag =".format_price($sum));
     $y += 5;
     $pdf->SetXY ($x, $y);
-    out ($pdf, "     Zzgl. 19% MwSt =".format_price(1));
+    out ($pdf, "     Zzgl. 19% MwSt =".format_price($mwst));
     $y += 5;
     $pdf->SetXY ($x, $y);
-    out ($pdf, "Brutto-Gesamtbetrag =".format_price(999));
+    out ($pdf, "Brutto-Gesamtbetrag =".format_price($sum+$mwst));
     $y += 5;
     $pdf->Line($x, $y, $x+81, $y); 
     $pdf->Line($x, $y+1, $x+81, $y+1); 
@@ -173,19 +174,23 @@ function table_rows ($pdf, $x, $y, $inv_lines)
         $brutto_e = $price;
         $netto_g = $counts*$price*100/119;
         $pdf->SetXY ($x, $y);
-        out ($pdf, $counts);
+        if ($counts != 0)
+            out ($pdf, $counts);
         $x += 20;
         $pdf->SetXY ($x, $y);
         out ($pdf, $text);
         $x += 62;
         $pdf->SetXY ($x, $y);
-        out ($pdf, format_price($brutto_e));
+        if ($counts != 0)
+            out ($pdf, format_price($brutto_e));
         $x += 28;
         $pdf->SetXY ($x, $y);
-        out ($pdf, format_price($netto_e));
+        if ($counts != 0)
+            out ($pdf, format_price($netto_e));
         $x += 28;
         $pdf->SetXY ($x, $y);
-        out ($pdf, format_price($netto_g));
+        if ($counts != 0)
+            out ($pdf, format_price($netto_g));
         $y += 5;
         $x = $xold;
         $netto_sum += $netto_g;
@@ -272,7 +277,9 @@ function create_pdf ($arr_invoice, $arr_customer, $q_inv_lines)
     footer2 ($pdf, 15, 250);
     signatures ($pdf, 15, 240);
     endtext($pdf, 15, 215, FALSE, FALSE);
-    $pdf->Output('c:\\'.$filename.'.pdf','F');
+    $path1 = 'c:\\'.$filename.'.pdf';
+    $pdf->Output($path1,'F');
+    send_file($path1);
 }
 
 

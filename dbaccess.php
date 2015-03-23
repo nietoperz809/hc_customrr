@@ -64,6 +64,7 @@ function update_customer_dataset ($link, $id, $input_array)
 function get_customer_by_id ($link, $id)
 {
     $q = "select * from customer where id ='$id' and enabled ='1'";
+    //echo "<br/>".$q;
     $result = mysqli_query($link, $q, MYSQLI_USE_RESULT);
     $arr = mysqli_fetch_array($result);
     return $arr;

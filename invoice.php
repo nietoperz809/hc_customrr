@@ -54,11 +54,12 @@ include 'pdf_template.php';
                 $einzel = $all[1];
                 $linepos = $all[3];
             }
+            $id = $inv['cust_id'];
         }
         $customer = get_customer_by_id ($link, $id);
         if ($customer == NULL)
         {
-            echo ("Datenssatz ungültig");
+            echo ("Datensatz ungültig");
             goto page_end;
         }
         echo "<form action='$self' method='post'>";
@@ -76,6 +77,7 @@ include 'pdf_template.php';
         }
         else if (isset ($rech_ok))  // ready, store into DB
         {
+            $cust_id = $id;
             if ($rnum != FALSE) // delete former invoice
             {
                 $id = get_invoice_id_by_code ($link, $rnum);
@@ -84,7 +86,7 @@ include 'pdf_template.php';
             $pay = ($zahlungsart == 'bar' ? 0 : 1);
             $typ2 = ($typ == 'alt' ? 0 : 1);
             $inv_per_year = invoices_per_year ($link, date('Y'));
-            $invoice_id = new_invoice ($link, $id, $typ2, $pay, $inv_per_year, $filiale);
+            $invoice_id = new_invoice ($link, $cust_id, $typ2, $pay, $inv_per_year, $filiale);
             write_invoice_lines ($link, $invoice_id, $stueck, $einzel, $bez, $linepos);
             
             // generate PDF

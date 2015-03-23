@@ -33,3 +33,17 @@ function dbg ($x)
     print_r ($x);
     exit;
 }
+
+function send_file($zfilename)
+{
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: attachment; filename=' . basename($zfilename));
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($zfilename));
+    ob_clean();
+    flush();
+    $img_data = file_get_contents($zfilename);
+    echo $img_data;
+}

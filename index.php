@@ -29,7 +29,7 @@ include 'misc.php';
         // Create invoice
         else if (isset($_REQUEST['rech']))
         {
-            $id = $_REQUEST['rech'];
+            $id = $_REQUEST['id2'];
             header ("Location: invoice.php?id=$id");
             exit;
         }
