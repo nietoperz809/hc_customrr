@@ -22,14 +22,14 @@ include 'misc.php';
         $link = connect();
         if (isset($_REQUEST['rechbutton']))
         {
-            $id = $_REQUEST['id2'];
+            $id = $_REQUEST['rechbutton'];
             header ("Location: rechlist.php?id=$id");
             exit;
         }
         // Create invoice
         else if (isset($_REQUEST['rech']))
         {
-            $id = $_REQUEST['id2'];
+            $id = $_REQUEST['rech'];
             header ("Location: invoice.php?id=$id");
             exit;
         }
