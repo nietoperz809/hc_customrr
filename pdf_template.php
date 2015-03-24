@@ -22,36 +22,34 @@ function out ($pdf, $txt)
     $pdf->Write(5, conv ($txt));
 }
 
+function out2 ($x, $y, $pdf, $txt)
+{
+    $pdf->SetXY ($x,$y);
+    $pdf->Write(5, conv ($txt));
+}
+
 function hcheader ($pdf, $xstart, $ystart)
 {
     $pdf->SetFont('times','',12);
     $y = $ystart; $x = $xstart;
     $pdf->Line ($x, $y, $x+80, $y);
     $y += 1;
-    $pdf->SetXY ($x,$y);
-    out ($pdf, '• Hardware');
+    out2 ($x,$y, $pdf, '• Hardware');
     $y += 6;
-    $pdf->SetXY ($x,$y);
-    out ($pdf, '• Software');
+    out2 ($x,$y, $pdf, '• Software');
     $y += 6;
-    $pdf->SetXY ($x,$y);
-    out ($pdf, '• Netzwerke');
+    out2 ($x,$y, $pdf, '• Netzwerke');
     $y += 6;
-    $pdf->SetXY ($x,$y);
-    out ($pdf, '• Beratung');
+    out2 ($x,$y, $pdf, '• Beratung');
     $y = $ystart; $x = $xstart+30;
     $y += 1;
-    $pdf->SetXY ($x,$y);
-    out ($pdf, '• Eigene Werkstatt');
+    out2 ($x,$y, $pdf, '• Eigene Werkstatt');
     $y += 6;
-    $pdf->SetXY ($x,$y);
-    out ($pdf, '• Vor-Ort-Service');
+    out2 ($x,$y, $pdf, '• Vor-Ort-Service');
     $y += 6;
-    $pdf->SetXY ($x,$y);
-    out ($pdf, '• 24h-Service');
+    out2 ($x,$y, $pdf, '• 24h-Service');
     $y += 6;
-    $pdf->SetXY ($x,$y);
-    out ($pdf, '• An- und Verkauf');
+    out2 ($x,$y, $pdf, '• An- und Verkauf');
     $y += 6; $x = $xstart;
     $pdf->Line ($x, $y, $x+80, $y);
 }
@@ -66,8 +64,7 @@ function hcheader ($pdf, $xstart, $ystart)
 function address_field (FPDF $pdf, $x, $y, $arr)
 {
     $pdf->SetFontSize(10);
-    $pdf->SetXY ($x,$y);
-    out ($pdf, "Hanseatic Computer · Scheidestr. 17 · 30625 Hannover");
+    out2 ($x,$y, $pdf, "Hanseatic Computer · Scheidestr. 17 · 30625 Hannover");
     $pdf->SetLineWidth(0.1);
     $pdf->SetDrawColor(200, 200, 200);
     $pdf->Rect($x-5, $y+5, 100, 50); 
@@ -75,21 +72,16 @@ function address_field (FPDF $pdf, $x, $y, $arr)
     $pdf->SetFontSize(14);
     $y1 = $y+20;
     $x1 = $x+10;
-    $pdf->SetXY ($x1,$y1);
-    out ($pdf, $arr['anrede']);
+    out2 ($x,$y, $pdf, $arr['anrede']);
     $y1 += 5;
-    $pdf->SetXY ($x1,$y1);
-    out ($pdf, $arr['vname'].' '.$arr['name']);
+    out2 ($x,$y, $pdf, $arr['vname'].' '.$arr['name']);
     $y1 += 5;
-    $pdf->SetXY ($x1,$y1);
-    out ($pdf, $arr['street'].' '.$arr['hausnr']);
+    out2 ($x,$y, $pdf, $arr['street'].' '.$arr['hausnr']);
     $y1 += 5;
-    $pdf->SetXY ($x1,$y1);
-    out ($pdf, $arr['plz'].' '.$arr['ort']);
+    out2 ($x,$y, $pdf, $arr['plz'].' '.$arr['ort']);
     
     $pdf->SetFontSize(12);
-    $pdf->SetXY ($x, $y+60);
-    out ($pdf, "Ihr Zeichen                       "
+    out2 ($x,$y, $pdf, "Ihr Zeichen                       "
                . "Ihre Nachricht vom                       "
                . "Unser Zeichen                       "
                . "Durchwahl");
@@ -98,29 +90,23 @@ function address_field (FPDF $pdf, $x, $y, $arr)
 function set_date ($pdf, $x, $y)
 {
     $pdf->SetFont('times','U',12);
-    $pdf->SetXY ($x, $y);
-    out ($pdf, "Datum: ".date("j.n.Y"));
+    out2 ($x,$y, $pdf, "Datum: ".date("j.n.Y"));
 }
 
 function invoice_number ($pdf, $x, $y, $num)
 {
     $pdf->SetFont('times','B', 20);
-    $pdf->SetXY ($x, $y);
-    out ($pdf, "Rechnung Nr.  ".$num);
+    out2 ($x, $y, $pdf, "Rechnung Nr.  ".$num);
     $pdf->SetFont('times','', 10);
-    $pdf->SetXY ($x, $y+8);
-    out ($pdf, "Das Lieferdatum entspricht dem Rechnungsdatum");
+    out2 ($x, $y+8, $pdf, "Das Lieferdatum entspricht dem Rechnungsdatum");
 }
 
 function table_header ($pdf, $x, $y)
 {
     $pdf->SetFont('times','B',12);
-    $pdf->SetXY ($x, $y);
-    out ($pdf, "Anzahl           Artikel");
-    $pdf->SetXY ($x+95, $y);
-    out ($pdf, "Einzelpreis    Einzelpreis      Gesamtpreis");
-    $pdf->SetXY ($x+95, $y-5);
-    out ($pdf, "  Brutto-           Netto-                Netto-");
+    out2 ($x, $y, $pdf, "Anzahl           Artikel");
+    out2 ($x+95, $y, $pdf, "Einzelpreis    Einzelpreis      Gesamtpreis");
+    out2 ($x+95, $y-5, $pdf, "  Brutto-           Netto-                Netto-");
     $pdf->SetLineWidth (0.5);
     $pdf->SetDrawColor (0,0,0);
     $pdf->Line($x-5, $y+5, $x+170, $y+5); 
@@ -133,14 +119,11 @@ function table_sumfield ($pdf, $x, $y, $sum)
     $pdf->SetDrawColor (0,0,0);
     $pdf->Line($x, $y, $x+81, $y); 
     $pdf->SetFont('courier','B',12);
-    $pdf->SetXY ($x, $y);
-    out ($pdf, " Netto-Gesamtbetrag =".format_price($sum));
+    out2 ($x, $y, $pdf, " Netto-Gesamtbetrag =".format_price($sum));
     $y += 5;
-    $pdf->SetXY ($x, $y);
-    out ($pdf, "     Zzgl. 19% MwSt =".format_price($mwst));
+    out2 ($x, $y, $pdf, "     Zzgl. 19% MwSt =".format_price($mwst));
     $y += 5;
-    $pdf->SetXY ($x, $y);
-    out ($pdf, "Brutto-Gesamtbetrag =".format_price($sum+$mwst));
+    out2 ($x, $y, $pdf, "Brutto-Gesamtbetrag =".format_price($sum+$mwst));
     $y += 5;
     $pdf->Line($x, $y, $x+81, $y); 
     $pdf->Line($x, $y+1, $x+81, $y+1); 
@@ -151,10 +134,10 @@ function table_sumfield ($pdf, $x, $y, $sum)
  * @param FPDF $pdf PDF object
  * @param int $x start X
  * @param int $y start Y
- * @param array $counts 
- * @param array $prices
+ * @param array $inv_lines invoice lines  
+ * @param array $invoice invoice as array
  */
-function table_rows ($pdf, $x, $y, $inv_lines)
+function table_rows ($pdf, $x, $y, $inv_lines, $invoice)
 {
     $pdf->SetFont('courier','',12);
     $xold = $x;
@@ -173,24 +156,19 @@ function table_rows ($pdf, $x, $y, $inv_lines)
         $netto_e = $price*100/119;
         $brutto_e = $price;
         $netto_g = $counts*$price*100/119;
-        $pdf->SetXY ($x, $y);
         if ($counts != 0)
-            out ($pdf, $counts);
+            out2 ($x, $y, $pdf, $counts);
         $x += 20;
-        $pdf->SetXY ($x, $y);
-        out ($pdf, $text);
+        out2 ($x, $y, $pdf, $text);
         $x += 62;
-        $pdf->SetXY ($x, $y);
         if ($counts != 0)
-            out ($pdf, format_price($brutto_e));
+            out2 ($x, $y, $pdf, format_price($brutto_e));
         $x += 28;
-        $pdf->SetXY ($x, $y);
         if ($counts != 0)
-            out ($pdf, format_price($netto_e));
+            out2 ($x, $y, $pdf, format_price($netto_e));
         $x += 28;
-        $pdf->SetXY ($x, $y);
         if ($counts != 0)
-            out ($pdf, format_price($netto_g));
+            out2 ($x, $y, $pdf, format_price($netto_g));
         $y += 5;
         $x = $xold;
         $netto_sum += $netto_g;
@@ -261,6 +239,7 @@ function endtext ($pdf, $x, $y, $type1, $type2)
  * Creates invoice as PDF 
  * @param array $arr_invoice invoice data 
  * @param array $arr_customer customer data
+ * @param array $q_inv_lines invoice lines
  */
 function create_pdf ($arr_invoice, $arr_customer, $q_inv_lines) 
 {
@@ -273,7 +252,7 @@ function create_pdf ($arr_invoice, $arr_customer, $q_inv_lines)
     set_date ($pdf, 150, 96);
     invoice_number($pdf, 15, 120, $arr_invoice['code']);
     table_header ($pdf, 20, 140);
-    table_rows ($pdf, 25, 147, $q_inv_lines);
+    table_rows ($pdf, 25, 147, $q_inv_lines, $arr_invoice);
     footer2 ($pdf, 15, 250);
     signatures ($pdf, 15, 240);
     endtext($pdf, 15, 215, FALSE, FALSE);
