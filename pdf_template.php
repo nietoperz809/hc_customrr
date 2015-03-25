@@ -35,29 +35,29 @@ function hcheader ($pdf, $xstart, $ystart)
     $pdf->Line ($x, $y, $x+80, $y);
     $y += 1;
     $pdf->SetXY ($x,$y);
-    out ($pdf, 'â€¢ Hardware');
+    out ($pdf, '• Hardware');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    out ($pdf, 'â€¢ Software');
+    out ($pdf, '• Software');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    out ($pdf, 'â€¢ Netzwerke');
+    out ($pdf, '• Netzwerke');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    out ($pdf, 'â€¢ Beratung');
+    out ($pdf, '• Beratung');
     $y = $ystart; $x = $xstart+30;
     $y += 1;
     $pdf->SetXY ($x,$y);
-    out ($pdf, 'â€¢ Eigene Werkstatt');
+    out ($pdf, '• Eigene Werkstatt');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    out ($pdf, 'â€¢ Vor-Ort-Service');
+    out ($pdf, '• Vor-Ort-Service');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    out ($pdf, 'â€¢ 24h-Service');
+    out ($pdf, '• 24h-Service');
     $y += 6;
     $pdf->SetXY ($x,$y);
-    out ($pdf, 'â€¢ An- und Verkauf');
+    out ($pdf, '• An- und Verkauf');
     $y += 6; $x = $xstart;
     $pdf->Line ($x, $y, $x+80, $y);
 }
@@ -73,7 +73,7 @@ function address_field (FPDF $pdf, $x, $y, $arr)
 {
     $pdf->SetFontSize(10);
     $pdf->SetXY ($x,$y);
-    out ($pdf, "Hanseatic Computer Â· Scheidestr. 17 Â· 30625 Hannover");
+    out ($pdf, "Hanseatic Computer · Scheidestr. 17 · 30625 Hannover");
     $pdf->SetLineWidth(0.1);
     $pdf->SetDrawColor(200, 200, 200);
     $pdf->Rect($x-5, $y+5, 100, 50); 
@@ -118,7 +118,7 @@ function invoice_number ($pdf, $x, $y, $num)
     out ($pdf, "Das Lieferdatum entspricht dem Rechnungsdatum");
 }
 
-//zaman yÃ¼ksel 017684588474 
+//zaman yüksel 017684588474 
 
 function table_header_new ($pdf, $x, $y)
 {
@@ -278,13 +278,13 @@ function footer2 ($pdf, $x, $y)
     out ($pdf, "IBAN:DE88250100300454382306 BIC:PBNKDEFF250");
     $y+=5;
     $pdf->SetXY ($x, $y);
-    out ($pdf, "Die Ware bleibt bis zu vollstÃ¤ndigen Bezahlung unser Eigentum");
+    out ($pdf, "Die Ware bleibt bis zu vollständigen Bezahlung unser Eigentum");
     $pdf->SetXY ($x, $y+5);
     out ($pdf, "Bankverbindung: Postbank Hannover, BLZ 250 100 30, Konto-Nr. 454382306");
     $pdf->SetXY ($x, $y+10);
     out ($pdf, "Ust.-ID DE186984567 Finanzamt Hannover Steuer-Nr.25/111/11645");
     $pdf->SetXY ($x, $y+15);
-    out ($pdf, "GeschÃ¤ftsfÃ¼hrer: H. Erkan");    
+    out ($pdf, "Geschäftsführer: H. Erkan");    
 }
 
 function signatures ($pdf, $x, $y)
@@ -314,14 +314,14 @@ function signatures ($pdf, $x, $y)
     $pdf->SetXY ($x, $y);
     if ($type1 == '0')
     {
-        out ($pdf, "6 Monate GewÃ¤hrleistung");
+        out ($pdf, "6 Monate Gewährleistung");
     }
     else
     {
         out ($pdf, "12 Monate Herstellergarantie");
     }
     $pdf->SetXY ($x, $y+5);
-    out ($pdf, "Wir danken fÃ¼r Ihren Auftrag.");
+    out ($pdf, "Wir danken für Ihren Auftrag.");
     $pdf->SetXY ($x, $y+10);
     if ($type2 == '0')
     {
