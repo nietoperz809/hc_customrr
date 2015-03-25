@@ -97,9 +97,9 @@ include 'misc.php';
             // show-customer button clicked
             else if ($bbsub == "kunde")
             {
-                if (isset($_REQUEST['bbt_show']))
+                if (isset($_REQUEST['bbt_seek']))
                 {
-                    $id = $_REQUEST['bbt_show'];
+                    $id = $_REQUEST['bbt_seek'];
                     $arr = get_customer_by_id($link, $id);
                     if ($arr == NULL)
                         $id = "deleted";

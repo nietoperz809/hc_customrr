@@ -86,7 +86,7 @@ include 'pdf_template.php';
             $pay = ($zahlungsart == 'bar' ? 0 : 1);
             $typ2 = ($typ == 'alt' ? 0 : 1);
             $inv_per_year = invoices_per_year ($link, date('Y'));
-            $invoice_id = new_invoice ($link, $cust_id, $typ2, $pay, $inv_per_year, $filiale);
+            $invoice_id = new_invoice ($link, $cust_id, $typ2, $pay, $inv_per_year, $filiale, $rnum);
             write_invoice_lines ($link, $invoice_id, $stueck, $einzel, $bez, $linepos);
             
             // generate PDF

@@ -73,10 +73,9 @@ function main_buttonbar()
     . "title ='Leert die Tabelle auf dem Bildschirm'>";
     echo "<br/><input type='submit' name='bbsub' value='kunde' "
     . "title ='Rechts die Kundennummer eingeben und hier klicken um entsprechenden Datensatz zu zeigen'>";
-    echo "<input type='text' name='bbt_show' size='8'>";
-    echo "<br/><input type='submit' name='suchen' value='suchen' "
-    . "title ='Rechts Suchbegriff eingeben und hier klicken um nach einem Kunden zu suchen'>";
     echo "<input type='text' name='bbt_seek'>";
+    echo "<input type='submit' name='suchen' value='suchen' "
+    . "title ='Links Suchbegriff eingeben und hier klicken um nach einem Kunden zu suchen'>";
     echo "<hr/>";
     echo "<input type='submit' name='rech' value='rechnung erstellen'>";
     echo "<br/><input type='submit' name='old_rechbutt' value='rechnung bearbeiten'>";

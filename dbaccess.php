@@ -101,13 +101,16 @@ function disable_customer_dataset ($link, $id)
  * @param type $payment 0 == bar, 1 == überweisung 
  * @return type
  */
-function new_invoice ($link, $cust_id, $typ, $payment, $inv_per_year, $filiale)
+function new_invoice ($link, $cust_id, $typ, $payment, $inv_per_year, $filiale, $code=FALSE)
 {
-    $code = date('Y')
-            . ($payment == TRUE ? 'U' : 'B')
-            . $filiale
-            . date ("m")
-            . $inv_per_year;
+    if ($code == FALSE)
+    {
+        $code = date('Y')
+                . ($payment == TRUE ? 'U' : 'B')
+                . $filiale
+                . date ("m")
+                . $inv_per_year;
+    }
     $q = "insert into invoice (cust_id, typ, payment, code) values ('$cust_id', '$typ', '$payment', '$code')";
     mysqli_query ($link, $q);
     $id = mysqli_insert_id($link);
